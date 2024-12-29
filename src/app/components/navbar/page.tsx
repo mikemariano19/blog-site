@@ -13,10 +13,10 @@ export default function HomePage() {
                         <HomeIcon className="size-6" />
                     </Link>
                     <Link href="/" className="p-3">
-                        <UserCircleIcon className="size-6" />
+                        <BellIcon className="size-6" />
                     </Link>
                     <Link href="/" className="p-3">
-                        <BellIcon className="size-6" />
+                        <UserCircleIcon className="size-6" />
                     </Link>
                 </div>
             </div>
