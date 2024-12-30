@@ -1,4 +1,7 @@
 'use client'
+
+import Image from "next/image"
+
 // import { useEffect, useState } from "react"
 
 // type ImageData = {
@@ -25,8 +28,8 @@ export default function BlogPost() {
  
     
     return (
-        <div className="max-w-screen-lg mx-auto mt-26 text-slate-900 py-4">
-            <div className=" bg-slate-100 border border-slate-200 rounded-md px-2 pt-2">
+        <div className="max-w-screen-lg px-2 xl:px-0 mx-auto mt-26 text-slate-900 pb-5">
+            <div className=" bg-white` border border-slate-200 rounded-md px-2 pt-2">
                 <div className="flex">
                     <span className="bg-slate-900 w-16 h-16 rounded-full mr-6"></span>
                     <div className="my-auto">
@@ -41,15 +44,26 @@ export default function BlogPost() {
                         Video: ChessBase India 
                     </p>
                 </div>
-            </div>
-            {/* image */}
-            <div className="from-neutral-900">
-                <div className="border h-96 w-auto bg-slate-500"></div>
-            </div>
-            <div>
-                <button>
-                    
-                </button>
+                {/* image */}
+                <div className="from-neutral-900">
+                    <div className="h-96 bg-slate-500"></div>
+                </div>
+                {/* reaction counts */}
+                <div className="p-2 flex">
+                    <Image src="./like-count.svg" width='20' height='20' alt="" />
+                    <span className="px-2">223</span>
+                </div>
+                <div className="border-t"></div>
+                <div className="flex py-1">
+                    <button className="flex justify-center flex-1 p-2 hover:bg-slate-200 hover:rounded-sm">
+                        <Image src="/like.svg" alt="Like Icon" width="24" height="24"/>
+                        <span className="px-2">Like</span>
+                    </button>
+                    <button className="flex justify-center flex-1 p-2 hover:bg-slate-200 hover:rounded-sm">
+                        <Image src="/comment.svg" alt="Like Icon" width="24" height="24"/>
+                        <span className="px-2">Comment</span>
+                    </button>
+                </div>
             </div>
         </div>
     )
