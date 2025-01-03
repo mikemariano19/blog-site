@@ -1,6 +1,9 @@
 'use client'
 
 import Image from "next/image"
+import { useEffect, useState } from "react"
+
+import CommentModal from "../comment-modal/page"
 
 // import { useEffect, useState } from "react"
 
@@ -11,6 +14,19 @@ import Image from "next/image"
 // }
 
 export default function BlogPost() {
+    const [isModalOpen, setIsModalIsOpen] = useState(false)
+    
+    useEffect(() => {
+        if(isModalOpen){
+            document.body.classList.add("overflow-hidden")
+        } else {
+            document.body.classList.remove("overflow-hidden")
+        }
+
+        // Cleanup on unmount
+        return () => document.body.classList.remove("overflow-hidden")
+    }, [isModalOpen])
+
     // const [images, setImages] = useState<ImageData[]>([])
     // useEffect(() => {
     //     const fetchImage = async () => {
@@ -28,7 +44,8 @@ export default function BlogPost() {
  
     
     return (
-        <div className="max-w-screen-lg px-2 xl:px-0 mx-auto mt-26 text-slate-900 pb-5">
+        <div>
+            <div className="max-w-screen-lg px-2 xl:px-0 mx-auto mt-26 text-slate-900 pb-5">
             <div className=" bg-white` border border-slate-200 rounded-md px-2 pt-2">
                 <div className="flex">
                     <span className="bg-slate-900 w-16 h-16 rounded-full mr-6"></span>
@@ -54,17 +71,24 @@ export default function BlogPost() {
                     <span className="px-2">223</span>
                 </div>
                 <div className="border-t"></div>
+                {/* button */}
                 <div className="flex py-1">
                     <button className="flex justify-center flex-1 p-2 hover:bg-slate-200 hover:rounded-sm">
                         <Image src="/like.svg" alt="Like Icon" width="24" height="24"/>
                         <span className="px-2">Like</span>
                     </button>
-                    <button className="flex justify-center flex-1 p-2 hover:bg-slate-200 hover:rounded-sm">
+                    <button className="flex justify-center flex-1 p-2 hover:bg-slate-200 hover:rounded-sm" onClick={()=> setIsModalIsOpen(true)}>
                         <Image src="/comment.svg" alt="Like Icon" width="24" height="24"/>
                         <span className="px-2">Comment</span>
                     </button>
                 </div>
             </div>
+        </div>
+            {isModalOpen && (
+                    <div className="z-50 flex justify-center top-0 left-0 fixed">
+                        <CommentModal />
+                    </div>
+            )}
         </div>
     )
 }

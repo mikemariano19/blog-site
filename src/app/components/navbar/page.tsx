@@ -9,14 +9,17 @@ export default function HomePage() {
                     <h1 className="text-2xl flex items-center">CatDogBlog</h1>
                 </div>
                 <div className="h-12 flex content-center">
-                    <Link href="/" className="p-3">
+                    <Link href="/" className="p-3 flex">
                         <HomeIcon className="size-6" />
+                        <span className="px-1 hidden lg:block">Home</span>
                     </Link>
-                    <Link href="/" className="p-3">
+                    <Link href="/" className="p-3 flex">
                         <BellIcon className="size-6" />
+                        <span className="px-1 hidden lg:block">Notification</span>
                     </Link>
-                    <Link href="/" className="p-3">
+                    <Link href="/" className="p-3 flex">
                         <UserCircleIcon className="size-6" />
+                        <span className="px-1 hidden lg:block">Profile</span>
                     </Link>
                 </div>
             </div>
