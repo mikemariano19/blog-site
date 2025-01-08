@@ -8,16 +8,18 @@ export default function CommentModal() {
   
     return (
             <div className="bg-white/90 w-screen h-screen flex justify-center">
-                <div className="max-w-screen-lg px-2 xl:px-0 mx-auto shadow-lg shadow-slate-500 text-slate-900 z-10 ">
+                <div className="max-w-screen-lg rounded-md px-2 my-4 xl:px-0 mx-auto bg-blue-500 shadow-lg shadow-slate-500 text-slate-900 z-10 ">
                     {/* modal header */}
-                    <div className="p-4 bg-white flex justify-center font-semibold text-2xl z-20">
-                        <h1>Pablo Escobar's Post</h1>
-                        <div className="">
-                            <Image src='./exit.svg' alt="exit" width='24' height='24' />
+                    <div className="flex justify-end">
+                        <Image src='./exit.svg' alt="exit" width='14' height='14' className="p-4 bg-black" />
+                    </div>
+                    <div className="flex justify-center top-0">
+                        <div className="py-4 text-center bg-white font-semibold text-2xl z-20">
+                            <h1>Pablo Escobar's Post</h1>
                         </div>
                     </div>
                     <div className="border-t"></div>
-                    <div className=" bg-red-500 p-2 my-0 h-screen overflow-auto border border-slate-200 rounded-md flex justify-center">
+                    <div className=" bg-red-500 p-2 max-h-[80vh] overflow-auto border border-slate-200 rounded-t-md flex justify-center">
                         <div>
                             <div className="flex mt-4">
                                 <span className="bg-slate-900 w-16 h-16 rounded-full mr-6"></span>
@@ -94,16 +96,20 @@ export default function CommentModal() {
                                     </p>
                                 </div>
                             </div>
-                            {/* input comment */}
-                            <div className="flex pt-4">
-                                <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
-                                <div className="bg-slate-100 rounded-lg py-2 px-4">
-                                    <input type="text" className="focus:outline focus:outline-0" />
-                                </div>
+                            </div>
+                        </div>
+                        {/* input comment */}
+                        <div className="border-t"></div>
+                        <div className="flex h-20 py-4 pl-2 max-w-screen-lg z-20">
+                            <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
+                            <div className="flex rounded-lg w-full">
+                                <input type="text" className="focus:outline focus:outline-0 w-full p-2 rounded-xl bg-slate-100" placeholder="Comment as Lex Luthor" />
+                                <button className="-translate-x-8 -mr-4" type="submit">
+                                    <Image src='./send.svg' width='24' height='24' alt="send"/>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
     )
 }
