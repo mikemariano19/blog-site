@@ -45,7 +45,7 @@ export default function BlogPost() {
     
     return (
         <div>
-            <div className="max-w-screen-lg px-2 xl:px-0 mx-auto mt-26 text-slate-900 pb-5">
+            <div className="max-w-screen-xl px-2 xl:px-0 mx-auto mt-26 text-slate-900 pb-5">
             <div className=" bg-white` border border-slate-200 rounded-md px-2 pt-2">
                 <div className="flex">
                     <span className="bg-slate-900 w-16 h-16 rounded-full mr-6"></span>
