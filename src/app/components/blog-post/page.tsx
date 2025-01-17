@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
+
 import CommentModal from "../comment-modal/page"
 
 // import { useEffect, useState } from "react"
@@ -44,9 +45,9 @@ export default function BlogPost() {
  
     
     return (
-        <div>
-            <div className="max-w-screen-xl px-2 xl:px-0 mx-auto mt-26 text-slate-900 pb-5">
-            <div className=" bg-white` border border-slate-200 rounded-md px-2 pt-2">
+        <>
+            <div className="max-w-screen-md px-2 xl:px-0 mx-auto mt-26 text-slate-900 pb-5">
+            <div className=" bg-white border border-slate-200 rounded-md px-2 pt-2 z-10">
                 <div className="flex">
                     <span className="bg-slate-900 w-16 h-16 rounded-full mr-6"></span>
                     <div className="my-auto">
@@ -85,10 +86,10 @@ export default function BlogPost() {
             </div>
         </div>
             {isModalOpen && (
-                    <div className="z-50 flex justify-center top-0 left-0 fixed">
-                        <CommentModal />
-                    </div>
+                <div className="z-20 flex justify-center top-0 left-0 fixed" onClick={() => setIsModalIsOpen(false)}>
+                    <CommentModal/>
+                </div>
             )}
-        </div>
+        </>
     )
 }

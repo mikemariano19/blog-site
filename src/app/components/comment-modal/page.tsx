@@ -4,21 +4,24 @@ import Image from "next/image"
 
 export default function CommentModal() {
 
-
   
     return (
+
             <div className="bg-white/70 w-screen h-screen flex justify-center">
-                <div className="sm:container lg:max-w-screen-lg bg-white my-auto max-h-fit rounded-md px-2 xl:px-0 mx-2 shadow-lg shadow-slate-500 text-slate-900 z-10 ">
+                <div 
+                className="sm:container md:max-w-screen-sm  bg-white my-auto max-h-fit rounded-md px-2 xl:px-0 mx-2 shadow-lg shadow-slate-500 text-slate-900 z-10"
+                 onClick={(e) => e.stopPropagation()}
+                >
                     {/* modal header */}
                     <div className="flex justify-between">
                         <div className="my-auto m-4">
-                            <Image src='./exit.svg' alt="exit" width='14' height='14' className="p-4 bg-white" />
+                            <Image src="./exit.svg" alt="exit" width='24' height='24' className="p-4 bg-white" />
                         </div>
                         <div className="py-4 text-center bg-white font-semibold text-2xl z-20">
                             <h1>Pablo Escobar&apos;s Post</h1>
                         </div>
                         <button className="my-auto m-4">
-                            <Image src='./exit.svg' alt="exit" width='14' height='14' className="p-4 text-white rounded-full" />
+                            <Image src="./exit.svg" alt="exit" width="24" height="24" className="p-4 rounded-full shadow-lg" />
                         </button>
                     </div>
                     <div className="border-t"></div>
