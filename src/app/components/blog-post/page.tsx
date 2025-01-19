@@ -2,8 +2,6 @@
 
 import Image from "next/image"
 import { useEffect, useState } from "react"
-
-
 import CommentModal from "../comment-modal/page"
 
 // import { useEffect, useState } from "react"
@@ -87,7 +85,7 @@ export default function BlogPost() {
         </div>
             {isModalOpen && (
                 <div className="z-20 flex justify-center top-0 left-0 fixed" onClick={() => setIsModalIsOpen(false)}>
-                    <CommentModal/>
+                    <CommentModal setIsModalOpen={setIsModalIsOpen}/>
                 </div>
             )}
         </>
