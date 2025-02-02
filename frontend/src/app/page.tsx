@@ -11,9 +11,6 @@ export default function Page() {
           <NavBar />
           <NewsFeed />
           <BlogPost />
-          <BlogPost />
-          <BlogPost />
-          <BlogPost />
         </div>
       </div>
     )
