@@ -18,7 +18,7 @@ interface CommentModalProps {
                  onClick={(e) => e.stopPropagation()}
                 >
                     {/* modal header */}
-                    <div className="flex justify-between">
+                    <div className="flex justify-between bg-red-500">
                         <div className="my-auto m-4">
                             <Image src="./exit.svg" alt="exit" width='24' height='24' className="p-4 bg-white" />
                         </div>

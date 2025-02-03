@@ -57,6 +57,19 @@ const updatePost = async (req, res) => {
     }
 }
 
+// PATCH a single post by ID
+const patchPost = async (req, res) => {
+    try {
+        const post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 // delete a post
 const deletePost = async (req, res) => {
     const { id } = req.params
@@ -79,5 +92,6 @@ module.exports = {
     getPostById,
     createPost,
     updatePost,
-    deletePost
+    deletePost,
+    patchPost
 }
