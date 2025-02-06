@@ -1,4 +1,4 @@
-import BlogPost from "./components/blog-post/page"
+import PostCard from "./components/post-card/page"
 import NavBar from "./components/navbar/page"
 import NewsFeed from "./components/news-feed/page"
 
@@ -10,7 +10,7 @@ export default function Page() {
         <div>
           <NavBar />
           <NewsFeed />
-          <BlogPost />
+          <PostCard />
         </div>
       </div>
     )
