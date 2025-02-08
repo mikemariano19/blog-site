@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import { format } from 'timeago.js';
+import CommentModal from '../comment-modal/page';
 
 interface PostData {
     _id: number;
@@ -16,6 +17,7 @@ interface PostData {
 export default function BlogPost() {
     const [isModalOpen, setIsModalIsOpen] = useState(false);
     const [postData, setPostData] = useState<PostData[]>([]);
+    const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -47,8 +49,13 @@ export default function BlogPost() {
                 setIsLoading(false);
             });
         }, 500)
-        return () => clearTimeout(fetchData);
+        return () => clearTimeout(fetchData); // Cleanup on unmount
     },[])
+
+    const handleCommentClick = (post: PostData) => {
+        setSelectedPost(post);
+        setIsModalIsOpen(true);
+    };
 
     return (
         <>
@@ -85,7 +92,7 @@ export default function BlogPost() {
                                         <Image src="/like.svg" alt="Like Icon" width="24" height="24"/>
                                         <span className="px-2">Like</span>
                                     </button>
-                                    <button className="flex justify-center flex-1 p-2 hover:bg-slate-200 hover:rounded-sm" onClick={() => setIsModalIsOpen(true)}>
+                                    <button className="flex justify-center flex-1 p-2 hover:bg-slate-200 hover:rounded-sm" onClick={() => handleCommentClick(post)}>
                                         <Image src="/comment.svg" alt="Like Icon" width="24" height="24"/>
                                         <span className="px-2">Comment</span>
                                     </button>
@@ -94,7 +101,12 @@ export default function BlogPost() {
                         </div>
                     </div>
                 )) 
-            }   
+            }
+            {isModalOpen && selectedPost && (
+                <div className="z-20 flex justify-center top-0 left-0 fixed">
+                    <CommentModal isOpen={isModalOpen} onClose={() => setIsModalIsOpen(false)} postData={selectedPost} />
+                </div>
+            )}   
         </>
     );
 }

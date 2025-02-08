@@ -2,14 +2,33 @@
 
 
 import Image from "next/image"
-import React from "react";
+import { format } from 'timeago.js';
+
+
 
 interface CommentModalProps {
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface PostData {
+    _id: number;
+    caption: string;
+    image: string;
+    createdAt: string;
+    updatedAt: string;
+}
 
-    const CommentModal: React.FC<CommentModalProps> = ({ setIsModalOpen }) => {
+interface CommentModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    postData: PostData | null;
+}
+
+
+
+    const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, postData }) => {
+        if (!isOpen || !postData) return null;
+        
 
     return (
             <div className="bg-white/70 w-screen h-screen flex justify-center">
@@ -18,14 +37,14 @@ interface CommentModalProps {
                  onClick={(e) => e.stopPropagation()}
                 >
                     {/* modal header */}
-                    <div className="flex justify-between bg-red-500">
+                    <div className="flex justify-between">
                         <div className="my-auto m-4">
                             <Image src="./exit.svg" alt="exit" width='24' height='24' className="p-4 bg-white" />
                         </div>
                         <div className="py-4 text-center bg-white font-semibold text-2xl z-20">
-                            <h1>Pablo Escobar&apos;s Post</h1>
+                            <h1>{postData._id}&apos;s Post</h1>
                         </div>
-                        <button className="my-auto m-4" onClick={() => setIsModalOpen(false)}>
+                        <button className="my-auto m-4" onClick={onClose}>
                             <Image src="./exit.svg" alt="exit" width="24" height="24" className="p-4 rounded-full shadow-lg" />
                         </button>
                     </div>
@@ -36,15 +55,14 @@ interface CommentModalProps {
                             <div className="flex mt-4">
                                 <span className="bg-slate-900 w-16 h-16 rounded-full mr-6"></span>
                                 <div className="my-auto">
-                                    <h2 className="text-xl font-medium">Pablo Escobar</h2>
-                                    <p className="text-slate-500">1m</p>
+                                    <h2 className="text-xl font-medium">{postData._id}</h2>
+                                    <p className="text-slate-500">{format(postData.createdAt)}</p>
                                 </div>
                             </div>
                             {/* caption */}
                             <div>
                                 <p className="py-1">
-                                    Magnus Carlsen came in jeans to the 2nd day of World Rapid Championships 2024. And this led to one event happening after another. Check out this video to find out the complete story with regards to Magnus Carlsen Jeans Episode.
-                                    Video: ChessBase India 
+                                    {postData.caption}
                                 </p>
                             </div>
                             {/* image */}

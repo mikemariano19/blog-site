@@ -1,4 +1,4 @@
-import PostCard from "./components/post-card/page"
+import PostCard from "./components/user-post/page"
 import NavBar from "./components/navbar/page"
 import NewsFeed from "./components/news-feed/page"
 
