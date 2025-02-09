@@ -1,5 +1,8 @@
 'use client'
 
+import { useState } from "react";
+import axios from "axios";
+
 
 import Image from "next/image"
 import { format } from 'timeago.js';
@@ -18,6 +21,8 @@ interface PostData {
     updatedAt: string;
 }
 
+
+
 interface CommentModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -27,21 +32,41 @@ interface CommentModalProps {
 
 
     const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, postData }) => {
+        const [commentText, setCommentText] = useState('');
+        const [comments, setComments] = useState<CommentData[]>(postData?.comments || []);
+
         if (!isOpen || !postData) return null;
+
+        const handleCommentSubmit = async (e: React.FormEvent) => {
+            e.preventDefault();
+            if (!commentText.trim()) return;
+    
+            try {
+                const response = await axios.post(`http://localhost:4001/api/posts/${postData._id}/comments`, {
+                    userName: 'YourUserName', // Replace with the actual user name
+                    text: commentText
+                });
+    
+                setComments([...comments, response.data]);
+                setCommentText('');
+            } catch (error) {
+                console.error('Error adding comment:', error);
+            }
+        };
         
 
     return (
             <div className="bg-white/70 w-screen h-screen flex justify-center">
                 <div 
-                className="sm:container md:max-w-screen-sm  bg-white my-auto max-h-fit rounded-md px-2 xl:px-0 mx-2 shadow-lg shadow-slate-500 text-slate-900 z-10"
+                className="sm:container md:max-w-screen-sm  bg-white overflow-y-auto my-2 max-h-auto rounded-md px-0 sm:px-2 xl:px-0 mx-0 sm:mx-2 shadow-lg shadow-slate-500 text-slate-900 z-10"
                  onClick={(e) => e.stopPropagation()}
                 >
                     {/* modal header */}
                     <div className="flex justify-between">
-                        <div className="my-auto m-4">
+                        <div className="my-auto m-4 hidden sm:block">
                             <Image src="./exit.svg" alt="exit" width='24' height='24' className="p-4 bg-white" />
                         </div>
-                        <div className="py-4 text-center bg-white font-semibold text-2xl z-20">
+                        <div className="py-4 text-center bg-white font-semibold text-2xl z-20 pr-6 truncate">
                             <h1>{postData._id}&apos;s Post</h1>
                         </div>
                         <button className="my-auto m-4" onClick={onClose}>
@@ -50,7 +75,7 @@ interface CommentModalProps {
                     </div>
                     <div className="border-t"></div>
                     {/* post */}
-                    <div className="p-2 max-h-[800px] overflow-auto border-slate-200 flex justify-center">
+                    <div className="p-2 h-max overflow-y-auto border-slate-200 flex justify-center">
                         <div>
                             <div className="flex mt-4">
                                 <span className="bg-slate-900 w-16 h-16 rounded-full mr-6"></span>
@@ -94,7 +119,7 @@ interface CommentModalProps {
                                     <div className="flex py-2">
                                         <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
                                         <div className="bg-slate-100 rounded-lg py-2 px-4">
-                                            <h2 className="font-medium">Lex Luthor</h2>
+                                            <h2 className="font-medium">{}</h2>
                                             <p className="text-wrap">
                                                 Magnus Carlsen came in jeans to the 2nd day of World Rapid Championships 2024. And this led to one event happening after another. Check out this video to find out the complete story with regards to Magnus Carlsen Jeans Episode.
                                                 Video: ChessBase India
@@ -119,48 +144,25 @@ interface CommentModalProps {
                                         <p className="text-slate-500 ml-14">50m</p>
                                     </div>
                                 </div>
-                               <div>
-                                    <div className="flex py-2">
-                                        <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
-                                        <div className="bg-slate-100 rounded-lg py-2 px-4">
-                                            <h2 className="font-medium">Monkey D. Luffy</h2>
-                                            <p>
-                                                Imagine him as one of the players in Squid Game
-                                            </p>
-                                        </div >
-                                    </div>
-                                    <div className="px-4 mb-2">
-                                        <p className="text-slate-500 ml-14">2h</p>
-                                    </div>
-                               </div>
-                                <div>
-                                    <div className="flex py-2">
-                                        <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
-                                        <div className="bg-slate-100 rounded-lg py-2 px-4">
-                                            <h2 className="font-medium">Vinsmoke Sanji</h2>
-                                            <p>
-                                                NEWS UPDATE: Why isn&apos;t the VP included in the NSC anymore? ES Lucas Bersamin said that &quot;at the moment, the VP is not considered relevant to the responsibilities of membership in the NSC.&quot;  
-                                                Bersamin said that the president can still add members if the need arises. | via Jean Mangaluz
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="px-4 mb-2">
-                                        <p className="text-slate-500 ml-14">4d</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                             </div>
                         {/* input comment */}
                         {/* <div className="border-t"></div> */}
-                        <div className="flex h-16 py-2 pl-2 z-10 bottom-0 sticky bg-white">
+                        <div className="flex h-16 py-2 pl-2 z-10 bottom-2 sticky bg-white">
                             <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
-                            <div className="flex rounded-lg w-full">
-                                <input maxLength={50} className="focus:outline focus:outline-0 w-full pl-2 rounded-xl bg-slate-100" placeholder="Comment as Lex Luthor" />
+                            <form className="flex rounded-lg w-full" onSubmit={handleCommentSubmit}>
+                                <input 
+                                maxLength={50} 
+                                className="focus:outline focus:outline-0 w-full pl-2 rounded-xl bg-slate-100" 
+                                placeholder="Comment as YourUserName"
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)} 
+                                />
                                 <button className="-translate-x-8 -mr-4" type="submit">
                                     <Image src='./send.svg' width='24' height='24' alt="send"/>
                                 </button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

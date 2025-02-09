@@ -1,4 +1,5 @@
 const Post = require('../model/postModel')
+const Comment = require('../model/commentModel');
 const mongoose = require('mongoose')
 
 // get all posts
@@ -87,11 +88,34 @@ const deletePost = async (req, res) => {
     res.status(200).json({ message: 'Post deleted successfully' })
 }
 
+// Add a comment to a post
+const addComment = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        const comment = new Comment({
+            userName: req.body.userName,
+            text: req.body.text
+        });
+
+        post.comments.push(comment);
+        await post.save();
+
+        res.status(201).json(comment);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getPosts,
     getPostById,
     createPost,
     updatePost,
     deletePost,
-    patchPost
+    patchPost,
+    addComment
 }
