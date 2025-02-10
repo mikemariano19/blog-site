@@ -19,6 +19,14 @@ interface PostData {
     image: string;
     createdAt: string;
     updatedAt: string;
+    comments: CommentData[];
+}
+
+interface CommentData {
+    _id: number;
+    userName: string;
+    text: string;
+    createdAt: string;
 }
 
 
@@ -43,7 +51,7 @@ interface CommentModalProps {
     
             try {
                 const response = await axios.post(`http://localhost:4001/api/posts/${postData._id}/comments`, {
-                    userName: 'YourUserName', // Replace with the actual user name
+                    userName: 'Monkey D. Dragon', // Replace with the actual user name
                     text: commentText
                 });
     
@@ -58,16 +66,16 @@ interface CommentModalProps {
     return (
             <div className="bg-white/70 w-screen h-screen flex justify-center">
                 <div 
-                className="sm:container md:max-w-screen-sm  bg-white overflow-y-auto my-2 max-h-auto rounded-md px-0 sm:px-2 xl:px-0 mx-0 sm:mx-2 shadow-lg shadow-slate-500 text-slate-900 z-10"
+                className="sm:container md:max-w-screen-sm  bg-red-500 overflow-y-auto my-2 max-h-auto rounded-md px-0 sm:px-2 xl:px-0 mx-0 sm:mx-2 shadow-lg shadow-slate-500 text-slate-900 z-10"
                  onClick={(e) => e.stopPropagation()}
                 >
                     {/* modal header */}
                     <div className="flex justify-between">
-                        <div className="my-auto m-4 hidden sm:block">
+                        <div className="my-auto m-4">
                             <Image src="./exit.svg" alt="exit" width='24' height='24' className="p-4 bg-white" />
                         </div>
                         <div className="py-4 text-center bg-white font-semibold text-2xl z-20 pr-6 truncate">
-                            <h1>{postData._id}&apos;s Post</h1>
+                            <h1 className="truncate">{postData._id}&apos;s Post</h1>
                         </div>
                         <button className="my-auto m-4" onClick={onClose}>
                             <Image src="./exit.svg" alt="exit" width="24" height="24" className="p-4 rounded-full shadow-lg" />
@@ -115,41 +123,26 @@ interface CommentModalProps {
 
                             {/* comments */}
                             <div className="py-2">
-                                <div>
-                                    <div className="flex py-2">
-                                        <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
-                                        <div className="bg-slate-100 rounded-lg py-2 px-4">
-                                            <h2 className="font-medium">{}</h2>
-                                            <p className="text-wrap">
-                                                Magnus Carlsen came in jeans to the 2nd day of World Rapid Championships 2024. And this led to one event happening after another. Check out this video to find out the complete story with regards to Magnus Carlsen Jeans Episode.
-                                                Video: ChessBase India
-                                            </p>
+                            {comments.map((comment) => (
+                                    <div key={comment._id}>
+                                        <div className="flex py-2">
+                                            <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
+                                            <div className="bg-slate-100 rounded-lg py-2 px-4">
+                                                <h2 className="font-medium">{comment.userName}</h2>
+                                                <p className="text-wrap">{comment.text}</p>
+                                            </div>
+                                        </div>
+                                        <div className="px-4 mb-2">
+                                            <p className="text-slate-500 ml-14">{format(comment.createdAt)}</p>
                                         </div>
                                     </div>
-                                    <div className="px-4 mb-2">
-                                        <p className="text-slate-500 ml-14">1m</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex py-2">
-                                        <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
-                                        <div className="bg-slate-100 rounded-lg py-2 px-4">
-                                            <h2 className="font-medium">Clark Kent</h2>
-                                            <p>
-                                                Please Dont Destroy returned to “Saturday Night Live” this week with a new sketch, their first of the season.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="px-4 mb-2">
-                                        <p className="text-slate-500 ml-14">50m</p>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
-                            </div>
+                    </div>
                         {/* input comment */}
-                        {/* <div className="border-t"></div> */}
-                        <div className="flex h-16 py-2 pl-2 z-10 bottom-2 sticky bg-white">
+                        <div className="border-t"></div>
+                        <div className="flex h-16 py-2 pl-2 z-10 bottom-0 sticky bg-white">
                             <span className="bg-slate-900 w-12 h-12 rounded-full mr-2 shrink-0"></span>
                             <form className="flex rounded-lg w-full" onSubmit={handleCommentSubmit}>
                                 <input 
