@@ -1,6 +1,6 @@
 import PostCard from "./components/user-post/page"
 import NavBar from "./components/navbar/page"
-import NewsFeed from "./components/news-feed/page"
+import NewsFeed from "./components/input-post/page"
 
 
 
