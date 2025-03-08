@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, RefObject } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { format } from 'timeago.js';
-import useOnClickOutside from '../hooks/useClickOutside'; // Adjust the import path as needed
+import useOnClickOutside from '../hooks/useClickOutside';
 
 interface CommentData {
     _id: string;
@@ -38,6 +38,7 @@ const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, postData }
     const [comments, setComments] = useState<CommentData[]>(postData?.comments || []);
     const [isPostExpanded, setIsPostExpanded] = useState(false);
     const [expandedComments, setExpandedComments] = useState<{ [key: string]: boolean }>({});
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const modalRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +47,12 @@ const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, postData }
             onClose();
         }
     });
+
+    useEffect(() => {
+        // Check login status from localStorage
+        const loggedInStatus = localStorage.getItem('isLoggedIn');
+        setIsLoggedIn(loggedInStatus === 'true');
+    }, []);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -67,6 +74,10 @@ const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, postData }
 
     const handleCommentSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!isLoggedIn) {
+            window.location.href = '/login'; // Redirect to login page if not logged in
+            return;
+        }
         if (!commentText.trim()) return;
 
         try {

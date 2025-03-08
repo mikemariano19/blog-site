@@ -1,7 +1,16 @@
+'use client'
+import React from 'react';
 import Link from "next/link";
 import { BellIcon, HomeIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { useRouter } from "next/navigation";
 
-export default function HomePage() {
+const HomePage = () => {
+    const router = useRouter();
+    const handleLogout = () => {
+        localStorage.removeItem('isLoggedIn');
+        router.push('/login');
+    }
+
     return (
         <div className="text-slate-200 w-full bg-slate-800">
             <div className="max-w-screen-lg flex justify-between mx-auto">
@@ -15,14 +24,16 @@ export default function HomePage() {
                     </Link>
                     <Link href="/" className="p-3 flex">
                         <BellIcon className="size-6" />
-                        <span className="px-1 hidden lg:block">Notification</span>
-                    </Link>
-                    <Link href="/" className="p-3 flex">
-                        <UserCircleIcon className="size-6" />
                         <span className="px-1 hidden lg:block">Profile</span>
                     </Link>
+                    <button onClick={handleLogout} className="p-3 flex">
+                        <UserCircleIcon className="size-6" />
+                        <span className="px-1 hidden lg:block">Log Out</span>
+                    </button>
                 </div>
             </div>
         </div>
     )
 }
+
+export default HomePage;

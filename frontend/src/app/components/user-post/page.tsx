@@ -22,7 +22,7 @@ interface PostData {
     comments: CommentData[];
 }
 
-export default function BlogPost() {
+export default function UserPost() {
     const [isModalOpen, setIsModalIsOpen] = useState(false);
     const [postData, setPostData] = useState<PostData[]>([]);
     const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
