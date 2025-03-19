@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import UserPost from '../user-post/page';
+import UserPost from '../components/user-post/page';
 import LoginPage from './login';
-import InputPostPage from '../input-post/page';
+import InputPostPage from '../components/input-post/page';
 
 const HomePage: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);

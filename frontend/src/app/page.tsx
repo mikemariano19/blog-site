@@ -1,6 +1,7 @@
 
 import NavBar from "./components/navbar/page"
-import HomePage from "./components/pages"
+import HomePage from "./pages"
+
 
 
 

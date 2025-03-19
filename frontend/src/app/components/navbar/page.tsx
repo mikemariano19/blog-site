@@ -1,15 +1,25 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from "next/link";
 import { BellIcon, HomeIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { useRouter } from "next/navigation";
 
 const HomePage = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    useEffect(() => {
+        const loggedIn = localStorage.getItem('isLoggedIn');
+        if (loggedIn) {
+            setIsLoggedIn(true);
+        }
+    }, []);
+
     const router = useRouter();
     const handleLogout = () => {
         localStorage.removeItem('isLoggedIn');
         router.push('/login');
     }
+
+
 
     return (
         <div className="text-slate-200 w-full bg-slate-800">
@@ -17,7 +27,8 @@ const HomePage = () => {
                 <div className="h-12 content-center max-w-screen-lg">
                     <h1 className="text-2xl flex items-center">FuRR_book</h1>
                 </div>
-                <div className="h-12 flex content-center">
+                {isLoggedIn ?
+                    <div className="h-12 flex content-center">
                     <Link href="/" className="p-3 flex">
                         <HomeIcon className="size-6" />
                         <span className="px-1 hidden lg:block">Home</span>
@@ -30,7 +41,8 @@ const HomePage = () => {
                         <UserCircleIcon className="size-6" />
                         <span className="px-1 hidden lg:block">Log Out</span>
                     </button>
-                </div>
+                </div> : null 
+            }
             </div>
         </div>
     )
