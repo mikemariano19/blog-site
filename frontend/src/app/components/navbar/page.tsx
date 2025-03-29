@@ -4,7 +4,7 @@ import Link from "next/link";
 import { BellIcon, HomeIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { useRouter } from "next/navigation";
 
-const HomePage = () => {
+const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
         const loggedIn = localStorage.getItem('isLoggedIn');
@@ -16,7 +16,9 @@ const HomePage = () => {
     const router = useRouter();
     const handleLogout = () => {
         localStorage.removeItem('isLoggedIn');
-        router.push('/login');
+        setIsLoggedIn(false)
+        router.push('/login'); // Redirect to login page
+        console.log('Logged out');
     }
 
 
@@ -48,4 +50,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage;
+export default Navbar;

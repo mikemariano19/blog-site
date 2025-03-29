@@ -4,6 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const postRoutes = require('./routes/postRoute')
+const registerRoutes = require('./routes/registerRoute')
 
 const app = express()
 
@@ -11,8 +12,9 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// Use the postRoutes
+// Use the routes
 app.use('/api/posts', postRoutes)
+app.use('/api/register', registerRoutes)
 
 // Connect to MongoDB and start the server
 mongoose.connect(process.env.MONGO_URI)

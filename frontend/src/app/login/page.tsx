@@ -1,10 +1,12 @@
 'use client'
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -14,7 +16,7 @@ const Login: React.FC = () => {
         alert(`Logged in successfully as ${username}`);
         // Set login status to true
         localStorage.setItem('isLoggedIn', 'true');
-        window.location.href = '/'; // Redirect to home page after login
+        router.push('/'); // Redirect to the home page
     };
 
     return (
