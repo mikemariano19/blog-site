@@ -1,4 +1,5 @@
 const Register = require('../model/register');
+const bcrypt = require('bcrypt');
 
 // Controller to handle user registration
 const registerUser = async (req, res) => {
@@ -11,8 +12,11 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: 'Username already in use' });
         }
 
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         // Create a new user
-        const newUser = new Register({ userName, password });
+        const newUser = new Register({ userName, password: hashedPassword });
         await newUser.save();
 
         res.status(201).json({ message: 'User registered successfully', user: newUser });
