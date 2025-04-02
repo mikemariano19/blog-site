@@ -1,5 +1,5 @@
 const Register = require('../model/register');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs'); // For password hashing
 
 // Controller to handle user registration
 const registerUser = async (req, res) => {

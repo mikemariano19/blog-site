@@ -7,15 +7,34 @@ const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
+    const [error, setError] = useState('');
 
-    const handleRegister = (e: React.FormEvent) => {
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         // Add your registration logic here
-        console.log('Username:', username);
-        console.log('Password:', password);
-        alert(`Account created successfully for ${username}`);
-        // Redirect to the login page after successful registration
-        router.push('/login');
+        try {
+            const response = await fetch('http://localhost:4000/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userName: username, password }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                // Registration successful
+                alert(`Account created successfully for ${username}`);
+                router.push('/login'); // Redirect to the login page
+            } else {
+                // Registration failed
+                setError(data.message);
+            }
+        } catch (err) {
+            console.error('Registration error:', err);
+            setError('An error occurred. Please try again.');
+        }
     };
 
     return (
@@ -48,6 +67,7 @@ const Register: React.FC = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+                            {error && <p className="text-red-500 text-sm">{error}</p>} {/* Display error */}
                             <button
                                 type="submit"
                                 className="bg-slate-800 w-full text-white text-center p-2 rounded-lg mt-4"
