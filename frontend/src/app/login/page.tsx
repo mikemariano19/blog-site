@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -11,29 +12,27 @@ const Login: React.FC = () => {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-
         try {
-            const response = await fetch('http://localhost:4000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userName: username, password }),
+            const response = await axios.post('http://localhost:4001/api/login', {
+                userName: username,
+                password: password,
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
+            if (response.status === 200) {
                 // Login successful
-                alert(`Logged in successfully as ${username}`);
-                localStorage.setItem('isLoggedIn', 'true'); // Set login status
-                router.push('/'); // Redirect to the home page
-            } else {
-                // Login failed
-                setError(data.message);
+                alert(`Welcome back, ${username}`);
+                router.push('/newsfeed'); // Redirect to the newsfeed page
+                console.log('Login successful:', response.data);
             }
-        } catch {
-            setError('An error occurred. Please try again.');
+        } catch (err: unknown) {
+            // Narrow the type of `err` to handle it properly
+            if (axios.isAxiosError(err)) {
+                console.error('Login error:', err.response?.data || err.message);
+                setError(err.response?.data?.message || 'Invalid username or password.');
+            } else {
+                console.error('Unexpected error:', err);
+                setError('An unexpected error occurred. Please try again.');
+            }
         }
     };
 

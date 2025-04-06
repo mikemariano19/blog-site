@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -11,29 +12,26 @@ const Register: React.FC = () => {
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Add your registration logic here
         try {
-            const response = await fetch('http://localhost:4000/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userName: username, password }),
+            const response = await axios.post('http://localhost:4001/api/register', {
+                userName: username,
+                password: password,
             });
-    
-            const data = await response.json();
-    
-            if (response.ok) {
+
+            if (response.status === 201) {
                 // Registration successful
                 alert(`Account created successfully for ${username}`);
                 router.push('/login'); // Redirect to the login page
-            } else {
-                // Registration failed
-                setError(data.message);
             }
-        } catch (err) {
-            console.error('Registration error:', err);
-            setError('An error occurred. Please try again.');
+        } catch (err: unknown) {
+            // Narrow the type of `err` to handle it properly
+            if (axios.isAxiosError(err)) {
+                console.error('Registration error:', err.response?.data || err.message);
+                setError(err.response?.data?.message || 'An error occurred. Please try again.');
+            } else {
+                console.error('Unexpected error:', err);
+                setError('An unexpected error occurred. Please try again.');
+            }
         }
     };
 

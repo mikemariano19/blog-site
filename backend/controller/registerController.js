@@ -1,30 +1,30 @@
+const bcrypt = require('bcryptjs');
 const Register = require('../model/register');
-const bcrypt = require('bcryptjs'); // For password hashing
 
-// Controller to handle user registration
-const registerUser = async (req, res) => {
+// Controller to handle user login
+const loginUser = async (req, res) => {
     const { userName, password } = req.body;
 
     try {
-        // Check if the username already exists
-        const existingUsername = await Register.findOne({ userName });
-        if (existingUsername) {
-            return res.status(400).json({ message: 'Username already in use' });
+        // Check if the user exists
+        const user = await Register.findOne({ userName });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Compare the provided password with the stored hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Invalid password' });
+        }
 
-        // Create a new user
-        const newUser = new Register({ userName, password: hashedPassword });
-        await newUser.save();
-
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
+        // If login is successful
+        res.status(200).json({ message: 'Login successful', user });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
 
 module.exports = {
-    registerUser,
+    loginUser,
 };

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import HomeContent from './components/home-content/page';
+import NewsFeed from './components/newsfeed/page';
 import Navbar from './components/navbar/page';
 
 const HomePage: React.FC = () => {
@@ -25,7 +25,7 @@ const HomePage: React.FC = () => {
     return (
         <div>
             <Navbar />
-            <HomeContent />
+            <NewsFeed />
         </div>
     );
 };
