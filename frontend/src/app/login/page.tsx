@@ -33,6 +33,10 @@ const Login: React.FC = () => {
                 console.error('Unexpected error:', err);
                 setError('An unexpected error occurred. Please try again.');
             }
+            // Automatically clear the error message after 5 seconds
+            setTimeout(() => {
+                setError('');
+            }, 5000);
         }
     };
 
@@ -43,7 +47,14 @@ const Login: React.FC = () => {
                     <h1 className="text-center py-4 font-semibold text-xl text-slate-800">
                         Login into Pethub
                     </h1>
-                    <div className="border-t"></div>
+                    <div className="border-t"></div> {/* border */}
+                    <div className="relative py-2 pl-4">
+                        <p
+                            className={`absolute text-red-500 text-sm ${error ? 'block' : 'hidden'}`}
+                        >
+                            {error}
+                        </p>
+                    </div>
                     <div className="w-full p-4 pb-0">
                         <form onSubmit={handleLogin} className="login-form">
                             <div className="mb-2">
@@ -66,7 +77,6 @@ const Login: React.FC = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-                            {error && <p className="text-red-500 text-sm">{error}</p>}
                             <button
                                 type="submit"
                                 className="bg-slate-800 w-full text-white text-center p-2 rounded-lg mt-4"
