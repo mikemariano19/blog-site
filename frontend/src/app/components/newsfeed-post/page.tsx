@@ -5,6 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { format } from 'timeago.js';
 import CommentModal from '../comment-modal/page';
+import { useRouter } from 'next/navigation';
 
 interface CommentData {
     _id: string;
@@ -28,6 +29,15 @@ export default function NewsFeed() {
     const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            // If no token, redirect to login
+            router.push('/login');
+        }
+    });
 
     useEffect(() => {
         if (isModalOpen) {

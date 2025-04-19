@@ -1,10 +1,15 @@
-import NewsFeed from "../components/newsfeed/page";
+import Navbar from '../components/navbar/page'
+import NewsFeed from '../components/newsfeed-post/page'
+import InputPostPage from '../components/input-post/page'
 
-
-export default function NewsfeedPage() {
-    return (
-        <div>
-            <NewsFeed />
-        </div>
-    );
+const NewsfeedPage = () => {
+  return (
+    <>
+        <Navbar />
+        <InputPostPage />
+        <NewsFeed />
+    </>
+  )
 }
+
+export default NewsfeedPage

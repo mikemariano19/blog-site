@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import NewsFeed from './components/newsfeed/page';
-import Navbar from './components/navbar/page';
+import NewsFeed from './components/newsfeed-post/page';
 
 const HomePage: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,7 +23,6 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
-            <Navbar />
             <NewsFeed />
         </div>
     );

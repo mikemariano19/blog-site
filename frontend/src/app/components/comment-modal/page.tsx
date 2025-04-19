@@ -113,13 +113,13 @@ const CommentModal: React.FC<CommentModalProps> = ({ isOpen, onClose, postData }
                 {/* modal header */}
                 <div className="flex justify-between">
                     <div className="my-auto m-4">
-                        <Image src="./exit.svg" alt="exit" width='24' height='24' className="p-4 bg-white" />
+                        <p className="p-2 px-4 rounded-full bg-slate-50 text-white">X</p>
                     </div>
                     <div className="py-4 text-center bg-white font-semibold text-2xl z-20 pr-6 truncate">
                         <h1 className="truncate">{postData._id}&apos;s Post</h1>
                     </div>
                     <button className="my-auto m-4" onClick={onClose}>
-                        <Image src="./exit.svg" alt="exit" width="24" height="24" className="p-4 rounded-full shadow-lg" />
+                        <p className="p-2 px-4 rounded-full bg-slate-50 font-bold">X</p>
                     </button>
                 </div>
                 <div className="border-t"></div>

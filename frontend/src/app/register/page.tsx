@@ -7,11 +7,19 @@ import { useRouter } from 'next/navigation';
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const router = useRouter();
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const router = useRouter();
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:4001/api/register', {
                 userName: username,
@@ -24,7 +32,7 @@ const Register: React.FC = () => {
                 router.push('/login'); // Redirect to the login page
             }
         } catch (err: unknown) {
-            // Narrow the type of `err` to handle it properly
+            // Handle errors properly
             if (axios.isAxiosError(err)) {
                 console.error('Registration error:', err.response?.data || err.message);
                 setError(err.response?.data?.message || 'An error occurred. Please try again.');
@@ -56,15 +64,28 @@ const Register: React.FC = () => {
                                     required
                                 />
                             </div>
-                            <input
-                                placeholder="Password"
-                                className="border p-2 rounded-lg w-full"
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
+                            <div className="mb-2">
+                                <input
+                                    placeholder="Password"
+                                    className="border p-2 rounded-lg w-full"
+                                    type="password"
+                                    id="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-2">
+                                <input
+                                    placeholder="Confirm Password"
+                                    className="border p-2 rounded-lg w-full"
+                                    type="password"
+                                    id="confirmPassword"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
                             {error && <p className="text-red-500 text-sm">{error}</p>} {/* Display error */}
                             <button
                                 type="submit"

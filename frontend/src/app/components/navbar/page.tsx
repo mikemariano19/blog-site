@@ -7,15 +7,17 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
-        const loggedIn = localStorage.getItem('isLoggedIn');
-        if (loggedIn) {
+        const token = localStorage.getItem('authToken'); // Replace 'authToken' with your token key
+        if (token) {
             setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
         }
     }, []);
 
     const router = useRouter();
     const handleLogout = () => {
-        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('authToken'); // Remove the token
         setIsLoggedIn(false)
         router.push('/login'); // Redirect to login page
         console.log('Logged out');

@@ -19,6 +19,9 @@ const Login: React.FC = () => {
             });
 
             if (response.status === 200) {
+                // Save the token in localStorage
+                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('isLoggedIn', 'true'); // Optional: Track login status
                 // Login successful
                 alert(`Welcome back, ${username}`);
                 router.push('/newsfeed'); // Redirect to the newsfeed page
