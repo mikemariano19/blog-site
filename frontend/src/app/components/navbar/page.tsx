@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className="text-slate-200 w-full bg-slate-800">
             <div className="max-w-screen-lg flex justify-between mx-auto">
                 <div className="h-12 content-center max-w-screen-lg">
-                    <h1 className="text-2xl flex items-center">FuRR_book</h1>
+                    <h1 className="text-2xl flex items-center">DEV_PH</h1>
                 </div>
                 {isLoggedIn ?
                     <div className="h-12 flex content-center">

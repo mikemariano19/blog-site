@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const InputPostPage = () => {
+const InputPostPage = ({ firstName }: { firstName: string }) => {
     const [postContent, setPostContent] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    
 
     const handlePostSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,8 +57,8 @@ const InputPostPage = () => {
                 className="bg-white border flex border-slate-200 rounded-md mt-4 px-2 py-2 cursor-pointer"
                 onClick={() => setIsModalOpen(true)}
             >
-                <span className="bg-slate-900 w-16 h-16 rounded-full mr-6"></span>
-                <p className="text-gray-500 content-center">What&apos;s on your mind?</p>
+                <span className="bg-slate-900 w-16 h-16 rounded-full mr-6 shrink-0"></span>
+                <p className="text-gray-500 content-center bg-slate-200 w-full rounded-3xl pl-4">What&apos;s on your mind, {firstName}?</p>
             </div>
 
             {/* Modal */}
@@ -77,7 +79,7 @@ const InputPostPage = () => {
                                 <textarea
                                     id="post"
                                     className={`border p-2 rounded-lg w-full resize-none ${getFontSize()}`}
-                                    placeholder="Write something..."
+                                    placeholder={`What's on your mind?`}
                                     value={postContent}
                                     onChange={(e) => setPostContent(e.target.value)}
                                     rows={3} // Default height for 3 lines

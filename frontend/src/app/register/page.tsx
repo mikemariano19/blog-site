@@ -29,12 +29,12 @@ const Register: React.FC = () => {
             if (response.status === 201) {
                 // Registration successful
                 alert(`Account created successfully for ${username}`);
+                localStorage.setItem('authToken', response.data.token); // Save the token
                 router.push('/login'); // Redirect to the login page
             }
         } catch (err: unknown) {
             // Handle errors properly
             if (axios.isAxiosError(err)) {
-                console.error('Registration error:', err.response?.data || err.message);
                 setError(err.response?.data?.message || 'An error occurred. Please try again.');
             } else {
                 console.error('Unexpected error:', err);
