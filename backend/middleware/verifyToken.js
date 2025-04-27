@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('../model/register');
 
 const verifyToken = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1]; // Extract token from Authorization header

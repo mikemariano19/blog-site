@@ -91,9 +91,12 @@ const Login: React.FC = () => {
                                     <a href="/forgot-password">Forgot Password?</a>
                                 </button>
                                 <div className="border-t"></div>
-                                <button className="bg-blue-500 my-6 px-2 py-3 rounded-lg text-white w-full text-center">
-                                    <a href="/register">Create new account</a>
-                                </button>
+                                <a
+                                    href="/register"
+                                    className="bg-blue-500 my-6 px-2 py-3 rounded-lg text-white w-full text-center block"
+                                >
+                                    Create new account
+                                </a>
                             </div>
                         </form>
                     </div>

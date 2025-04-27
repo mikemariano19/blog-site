@@ -3,9 +3,10 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const postRoutes = require('./routes/postRoute')
-const registerRoutes = require('./routes/registerRoute')
-const loginRoutes = require('./routes/loginRoute');
+const postRoute = require('./routes/postRoute')
+const registerRoute = require('./routes/registerRoute')
+const loginRoute = require('./routes/loginRoute');
+const profileRoute = require('./routes/profileRoute');
 
 const app = express()
 
@@ -18,9 +19,10 @@ app.use(cors({
 }));
 
 // Use the routes
-app.use('/api/posts', postRoutes)
-app.use('/api/register', registerRoutes)
-app.use('/api/login', loginRoutes);
+app.use('/api/posts', postRoute)
+app.use('/api/register', registerRoute)
+app.use('/api/login', loginRoute);
+app.use('/api/profile', profileRoute);
 
 // Connect to MongoDB and start the server
 mongoose.connect(process.env.MONGO_URI)

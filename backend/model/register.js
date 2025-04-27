@@ -17,6 +17,8 @@ const registerSchema = new Schema(
             required: [true, 'Password is required'],
             minlength: [6, 'Password must be at least 6 characters long'],
         },
+        // firstName: { type: String, default: '' },
+        // lastName: { type: String, default: '' },
     },
     {
         timestamps: true, // Automatically add `createdAt` and `updatedAt` fields

@@ -5,10 +5,22 @@ const Register = require('../model/register');
 const registerUser = async (req, res) => {
     const { userName, password } = req.body;
 
+    console.log('Request received for registration'); // Avoid logging sensitive data
+
+    // Validate input
+    if (!userName || !password) {
+        console.log('Missing username or password');
+        return res.status(400).json({ message: 'Username and password are required.' });
+    }
+
     try {
+        // Trim the username to remove extra spaces
+        const trimmedUserName = userName.trim();
+
         // Check if the username already exists
-        const existingUser = await Register.findOne({ userName });
+        const existingUser = await Register.findOne({ userName: trimmedUserName });
         if (existingUser) {
+            console.log('Username already exists');
             return res.status(400).json({ message: 'Username already exists' });
         }
 
@@ -17,15 +29,23 @@ const registerUser = async (req, res) => {
 
         // Create a new user
         const newUser = new Register({
-            userName,
+            userName: trimmedUserName,
             password: hashedPassword,
         });
 
         // Save the user to the database
         await newUser.save();
 
+        console.log('User registered successfully');
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
+        // Handle MongoDB duplicate key error
+        if (error.code === 11000) {
+            console.error('Duplicate username error:', error);
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        console.error('Error during registration:', error);
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
