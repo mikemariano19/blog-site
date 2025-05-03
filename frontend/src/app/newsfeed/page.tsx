@@ -18,7 +18,7 @@ const NewsfeedPage = () => {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
         });
-        setFirstName(response.data.firstName); // Assume the API returns { firstName: "Mike" }
+        setFirstName(response.data.firstName); // Assuming the API returns `firstName`
       } catch (err) {
         console.error('Error fetching user data:', err);
       }

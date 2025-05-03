@@ -69,10 +69,35 @@ export default function NewsFeed() {
         return () => clearTimeout(fetchData); // Cleanup on unmount
     }, [])
 
-    const handleCommentClick = (post: PostData) => {
-        setSelectedPost(post);
-        setIsModalIsOpen(true);
+    const handleCommentClick = async (post: PostData) => {
+        const token = localStorage.getItem('authToken');
+        console.log('Token:', token);
+
+        if (!token) {
+            console.error('No token found');
+            return;
+        }
+            try {
+                const response = await axios.get('http://localhost:4001/api/profile/check', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (response.data.hasProfile) {
+                    // Proceed to comment functionality
+                    console.log('Proceed to comment');
+                } else {
+                    router.push('/profile/create'); // Redirect to profile creation page
+                }
+            } catch (error) {
+                console.error('Error checking profile:', error);
+            }
+                setSelectedPost(post);
+                setIsModalIsOpen(true);
     };
+
+    
 
     return (
         <>
