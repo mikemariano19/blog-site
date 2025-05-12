@@ -26,11 +26,13 @@ const Register: React.FC = () => {
                 password: password,
             });
 
-            if (response.status === 201) {
+            if (response.data.token) {
                 // Registration successful
                 alert(`Account created successfully for ${username}`);
                 localStorage.setItem('authToken', response.data.token); // Save the token
                 router.push('/login'); // Redirect to the login page
+            } else {
+                console.error('No token received from the server');
             }
         } catch (err: unknown) {
             // Handle errors properly

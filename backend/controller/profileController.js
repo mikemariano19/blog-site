@@ -1,23 +1,25 @@
-const User = require('../model/register');
+const Register = require('../model/register');
 
-const updateProfile = async (req, res) => {
-    const { firstName, lastName } = req.body;
-    const userId = req.user.id; // Assuming the user ID is extracted from the token
+// Check if the user has a profile
+const checkProfile = async (req, res) => {
+    const userId = req.user.id; // Assuming user ID is extracted from the token
 
     try {
-        const user = await User.findById(userId);
+        const user = await Register.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        user.firstName = firstName;
-        user.lastName = lastName;
-        await user.save();
+        // Check if profile fields are filled
+        if (!user.firstName || !user.lastName || !user.about) {
+            return res.status(200).json({ hasProfile: false });
+        }
 
-        res.status(200).json({ message: 'Profile updated successfully', user });
+        res.status(200).json({ hasProfile: true });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        console.error('Error checking profile:', error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
-module.exports = { updateProfile };
+module.exports = { checkProfile };

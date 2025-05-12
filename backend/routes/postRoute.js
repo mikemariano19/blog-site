@@ -1,5 +1,16 @@
 const express = require('express')
-const { getPosts, getPostById, createPost, updatePost, deletePost, patchPost, addComment } = require('../controller/postController')
+const { 
+    getPosts, 
+    getPostById, 
+    createPost, 
+    updatePost, 
+    deletePost, 
+    patchPost, 
+    addComment, 
+    getUserPosts 
+    } = require('../controller/postController')
+
+const verifyToken = require('../middleware/verifyToken') // Middleware to verify the token
 
 const router = express.Router()
 
@@ -8,6 +19,9 @@ router.route('/').get(getPosts).post(createPost)
 
 // GET, PUT, DELETE a single post by ID
 router.route('/:id').get(getPostById).put(updatePost).patch(patchPost).delete(deletePost)
+
+// Route to fetch user posts
+router.get('/user', verifyToken, getUserPosts);
 
 // POST a comment to a post
 router.route('/:id/comments').post(addComment);

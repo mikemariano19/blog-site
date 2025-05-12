@@ -17,8 +17,9 @@ const Login: React.FC = () => {
                 userName: username,
                 password: password,
             });
+            
 
-            if (response.status === 200) {
+            if (response.data.token) {
                 // Save the token in localStorage
                 localStorage.setItem('authToken', response.data.token);
                 localStorage.setItem('isLoggedIn', 'true'); // Optional: Track login status
@@ -26,11 +27,13 @@ const Login: React.FC = () => {
                 alert(`Welcome back, ${username}`);
                 router.push('/newsfeed'); // Redirect to the newsfeed page
                 console.log('Login successful:', response.data);
+            } else {
+                console.error('No token received from the server');
             }
         } catch (err: unknown) {
             // Narrow the type of `err` to handle it properly
             if (axios.isAxiosError(err)) {
-                console.error('Login error:', err.response?.data || err.message);
+                // console.error('Login error:', err.response?.data || err.message);
                 setError(err.response?.data?.message || 'Invalid username or password.');
             } else {
                 console.error('Unexpected error:', err);
@@ -42,6 +45,8 @@ const Login: React.FC = () => {
             }, 5000);
         }
     };
+
+    
 
     return (
         <div className="login-container text-slate-900 text-lg flex justify-center items-center h-screen">

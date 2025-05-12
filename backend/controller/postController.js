@@ -8,6 +8,19 @@ const getPosts = async (req, res) => {
     res.status(200).json(posts)
 }
 
+// Fetch all posts by a user
+const getUserPosts = async (req, res) => {
+    const userId = req.user.id; // Assuming user ID is extracted from the token
+
+    try {
+        const posts = await Post.find({ userId }).sort({ createdAt: -1 }); // Sort by newest first
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error('Error fetching user posts:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 // get a single post by ID
 const getPostById = async (req, res) => {
     const { id } = req.params
@@ -112,6 +125,7 @@ const addComment = async (req, res) => {
 
 module.exports = {
     getPosts,
+    getUserPosts,
     getPostById,
     createPost,
     updatePost,

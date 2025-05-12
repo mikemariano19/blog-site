@@ -3,7 +3,7 @@
 import Navbar from '../components/navbar/page'
 import NewsFeed from '../components/newsfeed-post/page'
 import InputPostPage from '../components/input-post/page'
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const NewsfeedPage = () => {

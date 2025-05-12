@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const Register = require('../model/register');
+const jwt = require('jsonwebtoken');
 
 // Controller to handle user registration
 const registerUser = async (req, res) => {
@@ -35,9 +36,13 @@ const registerUser = async (req, res) => {
 
         // Save the user to the database
         await newUser.save();
-
+        
+        // Generate a token for the new user
+       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+       // Send the response with the token
+       res.status(201).json({ message: 'User registered successfully', token });
+       
         console.log('User registered successfully');
-        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         // Handle MongoDB duplicate key error
         if (error.code === 11000) {

@@ -1,8 +1,9 @@
 const express = require('express');
-const { updateProfile } = require('../controller/profileController');
+const { checkProfile } = require('../controller/profileController');
 const verifyToken = require('../middleware/verifyToken');
 const router = express.Router();
 
-router.post('/', verifyToken, updateProfile);
+// Route to update profile
+router.get('/check', verifyToken, checkProfile);
 
 module.exports = router;
