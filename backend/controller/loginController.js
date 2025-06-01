@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Register = require('../model/register');
+const Register = require('../model/registerModel');
 
 // Controller to handle user login
 const loginUser = async (req, res) => {

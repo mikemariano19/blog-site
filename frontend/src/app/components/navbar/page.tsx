@@ -7,8 +7,11 @@ import axios from 'axios';
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const router = useRouter();
+    
     useEffect(() => {
         const token = localStorage.getItem('authToken'); // Replace 'authToken' with your token key
+        setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
         if (token) {
             setIsLoggedIn(true);
         } else {
@@ -16,15 +19,16 @@ const Navbar = () => {
         }
     }, []);
 
-    const router = useRouter();
+
     const handleLogout = () => {
         localStorage.removeItem('authToken'); // Remove the token
+        localStorage.removeItem('isLoggedIn'); // Remove login status
         setIsLoggedIn(false)
         router.push('/login'); // Redirect to login page
         console.log('Logged out');
     }
 
-    const handleProfileClick = async () => {
+    const handleProfile = async () => {
         const token = localStorage.getItem('authToken');
         try {
             const response = await axios.get('http://localhost:4001/api/profile/check', {
@@ -57,7 +61,7 @@ const Navbar = () => {
                         <HomeIcon className="size-6" />
                         <span className="px-1 hidden lg:block">Home</span>
                     </Link>
-                    <button onClick={handleProfileClick} className='p-3 flex'>
+                    <button onClick={handleProfile} className='p-3 flex'>
                             <UserCircleIcon className="size-6" />
                             <span className="px-1 hidden lg:block">Profile</span>
                     </button>

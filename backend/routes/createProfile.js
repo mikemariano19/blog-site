@@ -1,7 +1,8 @@
+// filepath: c:\Users\Tuf.Gaming\desktop\new-project\blog-site\backend\routes\profile.js
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
-const profileController = require('../controller/profileController');
+const profileController = require('../controllers/profileController');
+const auth = require('../middleware/auth'); // Your JWT/auth middleware
 
 const router = express.Router();
 
@@ -15,6 +16,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.post('/', upload.single('avatar'), profileController.createProfile);
+router.post('/', auth, upload.single('avatar'), profileController.createProfile);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 require('dotenv').config()
 
 const express = require('express')
-const mongoose = require('mongoose')
 const cors = require('cors')
+const mongoose = require('mongoose')
 const postRoute = require('./routes/postRoute')
 const registerRoute = require('./routes/registerRoute')
 const loginRoute = require('./routes/loginRoute');
@@ -23,6 +23,7 @@ app.use('/api/posts', postRoute)
 app.use('/api/register', registerRoute)
 app.use('/api/login', loginRoute)
 app.use('/api/profile', profileRoute)
+app.use('/uploads', express.static('uploads'));
 app.use('/api/user', require('./routes/userRoute')) // User route for fetching user data
 app.use('/api/newsfeed', require('./routes/loginRoute')) // Newsfeed route for protected content
 

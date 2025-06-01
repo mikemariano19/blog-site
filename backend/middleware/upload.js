@@ -1,5 +1,6 @@
 const fs = require('fs');
-const User = require('../model/UserModel');
+const path = require('path');
+const User = require('../model/UserModel'); // Update path if needed
 
 exports.createProfile = async (req, res) => {
     try {
@@ -28,7 +29,7 @@ exports.createProfile = async (req, res) => {
             user: {
                 firstName: user.firstName,
                 lastName: user.lastName,
-                avatar: user.avatar,
+                avatar: user.avatar, // This will include the binary data and contentType
             },
         });
     } catch (err) {
