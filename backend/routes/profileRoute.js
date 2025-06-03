@@ -1,20 +1,21 @@
 const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const profileController = require('../controller/profileController');
-
 const router = express.Router();
+const User = require('../model/UserModel'); // Adjust path as needed
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/avatars/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    },
+// Example: You should use authentication middleware to get userId from token
+router.get('/check', async (req, res) => {
+    try {
+        // Replace this with your actual user identification logic
+        // For demo, just check if any user exists
+        const user = await User.findOne();
+        if (user) {
+            return res.json({ hasProfile: true });
+        } else {
+            return res.json({ hasProfile: false });
+        }
+    } catch (err) {
+        return res.status(500).json({ hasProfile: false });
+    }
 });
-const upload = multer({ storage });
-
-router.post('/', upload.single('avatar'), profileController.createProfile);
 
 module.exports = router;

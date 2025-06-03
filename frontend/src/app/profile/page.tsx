@@ -61,12 +61,16 @@ const ProfilePage = () => {
             <h1 className="text-2xl font-semibold mb-4">{profile.firstName} {profile.lastName}</h1>
             <p className="mb-4">{profile.about}</p>
             <h2 className="text-xl font-semibold mb-4">Your Posts</h2>
-            {posts.map((post) => (
+            {posts.length === 0 ? (
+            <p className="text-gray-500">No posts yet.</p>
+        ) : (
+            posts.map((post) => (
                 <div key={post._id} className="border p-4 rounded-lg mb-4">
                     <p>{post.content}</p>
                     <p className="text-sm text-gray-500">{new Date(post.createdAt).toLocaleString()}</p>
                 </div>
-            ))}
+            ))
+        )}
         </div>
     );
 };

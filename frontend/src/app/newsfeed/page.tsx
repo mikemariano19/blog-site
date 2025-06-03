@@ -24,6 +24,7 @@ const NewsfeedPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setHasProfile(profileRes.data.hasProfile);
+        console.log('User profile status:', profileRes.data.hasProfile);
       } catch (err) {
         console.error('Error fetching user/profile data:', err);
         setHasProfile(false);
