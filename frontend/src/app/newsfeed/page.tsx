@@ -5,6 +5,7 @@ import axios from 'axios';
 import NewsFeed from '../components/newsfeed-post/page'
 import InputPostPage from '../components/input-post/page'
 import ProfileCreation from '../profile/create/page';
+import Navbar from '../components/navbar/page';
 
 const NewsfeedPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -12,17 +13,22 @@ const NewsfeedPage = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      const token = localStorage.getItem('authToken');
+      if (!token) return; // If no token, do not proceed
+
       try {
-        const token = localStorage.getItem('authToken');
         const userRes = await axios.get('http://localhost:4001/api/user', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFirstName(userRes.data.firstName);
 
+        console.log('Token:', token); // See if it's null or correct
+
         // Check if user has a profile
         const profileRes = await axios.get('http://localhost:4001/api/profile/check', {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         setHasProfile(profileRes.data.hasProfile);
         console.log('User profile status:', profileRes.data.hasProfile);
       } catch (err) {
@@ -41,7 +47,8 @@ const NewsfeedPage = () => {
         <ProfileCreation />
       ) : hasProfile === true ? (
         <>
-          <InputPostPage firstName={firstName} />
+          <Navbar />
+          <InputPostPage firstName={firstName || 'User'} />
           <NewsFeed />
         </>
       ) : null}

@@ -20,6 +20,7 @@ const ProfilePage = () => {
     const [profile, setProfile] = useState<Profile | null>(null); // Profile can be null initially
     const [posts, setPosts] = useState<Post[]>([]); // Posts is an array of Post objects
     const [error, setError] = useState('');
+    const [postsLoading, setPostsLoading] = useState(true);
     
 
     useEffect(() => {
@@ -31,6 +32,10 @@ const ProfilePage = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+
+                setProfile(profileResponse.data);
+
+                setPostsLoading(true);
                 const postsResponse = await axios.get('http://localhost:4001/api/posts/user', {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -61,16 +66,18 @@ const ProfilePage = () => {
             <h1 className="text-2xl font-semibold mb-4">{profile.firstName} {profile.lastName}</h1>
             <p className="mb-4">{profile.about}</p>
             <h2 className="text-xl font-semibold mb-4">Your Posts</h2>
-            {posts.length === 0 ? (
-            <p className="text-gray-500">No posts yet.</p>
-        ) : (
-            posts.map((post) => (
-                <div key={post._id} className="border p-4 rounded-lg mb-4">
-                    <p>{post.content}</p>
-                    <p className="text-sm text-gray-500">{new Date(post.createdAt).toLocaleString()}</p>
-                </div>
-            ))
-        )}
+            {postsLoading ? (
+                <p>Loading posts...</p>
+            ) : posts.length === 0 ? (
+                <p className="text-gray-500">No posts yet.</p>
+            ) : (
+                posts.map((post) => (
+                    <div key={post._id} className="border p-4 rounded-lg mb-4">
+                        <p>{post.content}</p>
+                        <p className="text-sm text-gray-500">{new Date(post.createdAt).toLocaleString()}</p>
+                    </div>
+                ))
+            )}
         </div>
     );
 };

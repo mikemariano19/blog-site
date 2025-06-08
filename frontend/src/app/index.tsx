@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import NewsFeed from './components/newsfeed-post/page';
+import NewsfeedPage from './newsfeed/page';
 
 const HomePage: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
-            <NewsFeed />
+            <NewsfeedPage />
         </div>
     );
 };

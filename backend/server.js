@@ -23,8 +23,8 @@ app.use('/api/posts', postRoute)
 app.use('/api/register', registerRoute)
 app.use('/api/login', loginRoute)
 app.use('/api/profile', profileRoute)
-app.use('/uploads', express.static('uploads'));
 app.use('/api/profile', require('./routes/profileRoute'));
+app.use('/uploads', express.static('uploads'));
 app.use('/api/user', require('./routes/userRoute')) // User route for fetching user data
 app.use('/api/newsfeed', require('./routes/loginRoute')) // Newsfeed route for protected content
 

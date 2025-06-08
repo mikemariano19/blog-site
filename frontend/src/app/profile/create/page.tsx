@@ -86,7 +86,7 @@ const ProfileCreation: React.FC = () => {
     };
 
     const handleCancel = () => {
-        router.push('/newsfeed');
+        router.push('/');
     };
 
     return (
