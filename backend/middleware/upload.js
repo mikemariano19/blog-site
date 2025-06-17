@@ -1,39 +1,28 @@
-const fs = require('fs');
+// middleware/upload.js
+const multer = require('multer');
 const path = require('path');
-const User = require('../model/UserModel'); // Update path if needed
 
-exports.createProfile = async (req, res) => {
-    try {
-        const { firstName, lastName } = req.body;
+// Storage setup
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Make sure this folder exists
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+  }
+});
 
-        if (!firstName || !lastName) {
-            return res.status(400).json({ message: 'First name and last name are required.' });
-        }
-
-        let avatar = undefined;
-        if (req.file) {
-            avatar = {
-                data: fs.readFileSync(req.file.path),
-                contentType: req.file.mimetype,
-            };
-        }
-
-        const user = await User.create({
-            firstName,
-            lastName,
-            avatar,
-        });
-
-        res.status(200).json({
-            message: 'Profile created successfully!',
-            user: {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                avatar: user.avatar, // This will include the binary data and contentType
-            },
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error.' });
-    }
+// File filter (optional)
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed!'), false);
+  }
 };
+
+const upload = multer({ storage, fileFilter });
+
+module.exports = upload;

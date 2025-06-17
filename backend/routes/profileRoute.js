@@ -1,15 +1,25 @@
 const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const profileController = require('../controller/profileController');
 const router = express.Router();
+const verifyToken = require('../middleware/verifyToken'); // JWT verification middleware
+const upload = require('../middleware/upload'); // if you handle file uploads
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, 'uploads/avatars/'),
-    filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
-});
-const upload = multer({ storage });
+const {
+  createProfile,
+  checkProfile,
+  getProfile,
+  updateProfile
+} = require('../controller/profileController');
 
-router.post('/', upload.single('avatar'), profileController.createProfile);
+// POST /api/profile — create a profile
+router.post('/', verifyToken, upload.single('avatar'), createProfile);
+
+// GET /api/profile/check — check if user has a profile
+router.get('/check', verifyToken, checkProfile);
+
+// GET /api/profile — get the logged-in user's profile
+router.get('/', verifyToken, getProfile);
+
+// PUT /api/profile — update profile
+router.put('/', verifyToken, upload.single('avatar'), updateProfile);
 
 module.exports = router;

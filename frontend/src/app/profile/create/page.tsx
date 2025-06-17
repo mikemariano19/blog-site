@@ -72,7 +72,7 @@ const ProfileCreation: React.FC = () => {
 
             if (response.status === 200) {
                 alert('Profile created successfully!');
-                router.push('/newsfeed');
+                router.push('/profile');
             }
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
@@ -101,7 +101,7 @@ const ProfileCreation: React.FC = () => {
                         type="file"
                         accept="image/*"
                         onChange={handleAvatarChange}
-                        className="mb-2"
+                        className="mb-2" 
                         disabled={loading}
                     />
                     {avatarPreview && (

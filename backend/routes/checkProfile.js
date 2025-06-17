@@ -1,8 +1,8 @@
 // routes/profileRoutes.js
 const express = require('express');
 const router = express.Router();
-const verifyToken = require('../middleware/authMiddleware');
-const Profile = require('../model/UserModel');
+const verifyToken = require('../middleware/verifyToken'); // JWT verification middleware
+const Profile = require('../model/profileModel');
 
 // GET /api/profile/check
 router.get('/check', verifyToken, async (req, res) => {
