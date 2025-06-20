@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from 'react'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
+import Navbar from '../components/navbar/page'
 
 // Dynamically import UserPosts
 const UserPosts = dynamic(() => import('../components/user-post/page'), {
@@ -41,19 +42,25 @@ const ProfilePage = () => {
   if (error) return <p className="text-red-500">{error}</p>
   if (!profile) return <p>Loading profile...</p>
 
-  return (
-    <div className="max-w-screen-md mx-auto mt-10">
-      <h1 className="text-2xl font-semibold mb-4">
-        {profile.firstName} {profile.lastName}
-      </h1>
-      <p className="mb-4">{profile.about}</p>
+  
 
-      <h2 className="text-xl font-semibold mb-4">Posts</h2>
-      <Suspense fallback={<p>Loading posts...</p>}>
-        <UserPosts />
-      </Suspense>
-    </div>
+  return (
+        <>
+        <Navbar />
+          <div className="max-w-screen-md mx-auto mt-10">
+            <h1 className="text-2xl font-semibold mb-4">
+              {profile.firstName} {profile.lastName}
+            </h1>
+            <p className="mb-4">{profile.about}</p>
+
+            <h2 className="text-xl font-semibold mb-4">Posts</h2>
+            <Suspense fallback={<p>Loading posts...</p>}>
+              <UserPosts />
+            </Suspense>
+          </div>
+        </>
   )
 }
+
 
 export default ProfilePage

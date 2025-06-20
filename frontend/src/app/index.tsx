@@ -21,6 +21,7 @@ const HomePage: React.FC = () => {
         return null; // Prevent rendering until the login status is checked
     }
 
+
     return (
         <div>
             <NewsfeedPage />

@@ -3,6 +3,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Navbar from '@/app/components/navbar/page';
 
 const MAX_FILE_SIZE_MB = 2;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -74,6 +75,7 @@ const ProfileCreation: React.FC = () => {
                 alert('Profile created successfully!');
                 router.push('/profile');
             }
+            
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
                 setError(err.response?.data?.message || 'An error occurred. Please try again.');
@@ -90,76 +92,79 @@ const ProfileCreation: React.FC = () => {
     };
 
     return (
-        <div className="max-w-screen-md px-4 mx-auto mt-10 text-slate-900">
-            <h1 className="text-2xl font-semibold mb-4">Create Your Profile</h1>
-            <form onSubmit={handleProfileSubmit} className="bg-white p-6 rounded-lg shadow-md">
-                <div className="mb-4 flex flex-col items-center">
-                    <label className="block text-gray-700 font-medium mb-2">
-                        Avatar
-                    </label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleAvatarChange}
-                        className="mb-2" 
-                        disabled={loading}
-                    />
-                    {avatarPreview && (
-                        <img
-                            src={avatarPreview}
-                            alt="Avatar Preview"
-                            className="w-24 h-24 rounded-full object-cover border"
+        <>
+        <Navbar />
+                <div className="max-w-screen-md px-4 mx-auto mt-10 text-slate-900">
+                <h1 className="text-2xl font-semibold mb-4">Create Your Profile</h1>
+                <form onSubmit={handleProfileSubmit} className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="mb-4 flex flex-col items-center">
+                        <label className="block text-gray-700 font-medium mb-2">
+                            Avatar
+                        </label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAvatarChange}
+                            className="mb-2" 
+                            disabled={loading}
                         />
-                    )}
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="firstName" className="block text-gray-700 font-medium mb-2">
-                        First Name
-                    </label>
-                    <input
-                        id="firstName"
-                        type="text"
-                        className="border p-2 rounded-lg w-full"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        required
-                        disabled={loading}
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="lastName" className="block text-gray-700 font-medium mb-2">
-                        Last Name
-                    </label>
-                    <input
-                        id="lastName"
-                        type="text"
-                        className="border p-2 rounded-lg w-full"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                        disabled={loading}
-                    />
-                </div>
-                {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-                <div className="flex gap-4">
-                    <button
-                        type="submit"
-                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                        disabled={loading}
-                    >
-                        {loading ? 'Saving...' : 'Save Profile'}
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleCancel}
-                        className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400"
-                        disabled={loading}
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
+                        {avatarPreview && (
+                            <img
+                                src={avatarPreview}
+                                alt="Avatar Preview"
+                                className="w-24 h-24 rounded-full object-cover border"
+                            />
+                        )}
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="firstName" className="block text-gray-700 font-medium mb-2">
+                            First Name
+                        </label>
+                        <input
+                            id="firstName"
+                            type="text"
+                            className="border p-2 rounded-lg w-full"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="lastName" className="block text-gray-700 font-medium mb-2">
+                            Last Name
+                        </label>
+                        <input
+                            id="lastName"
+                            type="text"
+                            className="border p-2 rounded-lg w-full"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+                    {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                    <div className="flex gap-4">
+                        <button
+                            type="submit"
+                            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                            disabled={loading}
+                        >
+                            {loading ? 'Saving...' : 'Save Profile'}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleCancel}
+                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400"
+                            disabled={loading}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </>
     );
 };
 

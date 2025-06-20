@@ -17,7 +17,7 @@ const NewsfeedPage = () => {
       if (!token) return; // If no token, do not proceed
 
       try {
-        const userRes = await axios.get('http://localhost:4001/api/user', {
+        const userRes = await axios.get('http://localhost:4001/api/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFirstName(userRes.data.firstName);
@@ -43,11 +43,11 @@ const NewsfeedPage = () => {
 
   return (
     <>
+      <Navbar />
         {hasProfile === false ? (
-        <ProfileCreation />
+          <ProfileCreation />
       ) : hasProfile === true ? (
         <>
-          <Navbar />
           <InputPostPage firstName={firstName || 'User'} />
           <NewsFeed />
         </>

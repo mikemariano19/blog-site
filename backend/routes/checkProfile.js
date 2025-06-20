@@ -7,10 +7,10 @@ const Profile = require('../model/profileModel');
 // GET /api/profile/check
 router.get('/check', verifyToken, async (req, res) => {
     try {
-        const userId = req.user.id;
-        const profile = await Profile.findOne({ userId });
+        const profile = await Profile.findOne({ userId: req.user.id });
+        console.log('Checking profile for user ID:', req.user.id);
         const hasProfile = !!profile;
-        res.status(200).json({ hasProfile });
+        res.status(200).json({ hasProfile: !!hasProfile });
     } catch (err) {
         res.status(500).json({ message: 'Server error' });
     }
