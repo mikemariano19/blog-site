@@ -6,10 +6,40 @@ import NewsFeed from '../components/newsfeed-post/page'
 import InputPostPage from '../components/input-post/page'
 import ProfileCreation from '../profile/create/page';
 import Navbar from '../components/navbar/page';
+import { useRouter } from 'next/navigation';
 
 const NewsfeedPage = () => {
   const [firstName, setFirstName] = useState('');
   const [hasProfile, setHasProfile] = useState<boolean | null>(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+  const checkProfileStatus = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const res = await axios.get('http://localhost:4001/api/profile/check', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const hasProfile = res.data.hasProfile;
+      localStorage.setItem('hasProfile', hasProfile); // update localStorage
+      if (!hasProfile) {
+        router.push('/profile/create');
+      }
+    } catch (err) {
+      console.error('Error checking profile:', err);
+      router.push('/login');
+    }
+  };
+
+  checkProfileStatus();
+}, []);
 
   useEffect(() => {
     const fetchUserData = async () => {

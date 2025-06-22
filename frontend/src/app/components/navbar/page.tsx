@@ -21,6 +21,8 @@ const Navbar = () => {
 
     
 
+    
+
 
     const handleLogout = () => {
         localStorage.removeItem('authToken'); // Remove the token
@@ -30,24 +32,25 @@ const Navbar = () => {
         console.log('Logged out');
     }
 
-    // const handleProfile = async () => {
-    //     const token = localStorage.getItem('authToken');
-    //     try {
-    //         const response = await axios.get('http://localhost:4001/api/profile/check', {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         });
+    const handleProfile = async () => {
+        const token = localStorage.getItem('authToken');
+        try {
+            const response = await axios.get('http://localhost:4001/api/profile/check', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
     
-    //         if (response.data.hasProfile) {
-    //             router.push('/profile'); // Redirect to profile page
-    //         } else {
-    //             router.push('/profile/create'); // Redirect to profile creation page
-    //         }
-    //     } catch (error) {
-    //         console.error('Error checking profile:', error);
-    //     }
-    // };
+            if (response.data.hasProfile) {
+                router.push('/profile'); // Redirect to profile page
+            } else {
+                router.push('/profile/create'); // Redirect to profile creation page
+            }
+        } catch (error) {
+            console.error('Error checking profile:', error);
+        }
+    };
+
 
 
 
@@ -63,7 +66,7 @@ const Navbar = () => {
                         <HomeIcon className="size-6" />
                         <span className="px-1 hidden lg:block">Home</span>
                     </Link>
-                    <button className='p-3 flex'>
+                    <button onClick={handleProfile} className='p-3 flex'>
                             <UserCircleIcon className="size-6" />
                             <span className="px-1 hidden lg:block">Profile</span>
                     </button>

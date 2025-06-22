@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import Navbar from '@/app/components/navbar/page';
 
 const MAX_FILE_SIZE_MB = 2;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -91,9 +90,33 @@ const ProfileCreation: React.FC = () => {
         router.push('/');
     };
 
+    useEffect(() => {
+    const checkIfProfileExists = async () => {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
+      try {
+        const res = await axios.get('http://localhost:4001/api/profile/check', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (res.data.hasProfile) {
+          router.push('/newsfeed'); // redirect if already has profile
+        }
+      } catch (err) {
+        console.error('Failed to verify profile status:', err);
+        router.push('/login');
+      }
+    };
+
+    checkIfProfileExists();
+  });
+
     return (
         <>
-        <Navbar />
                 <div className="max-w-screen-md px-4 mx-auto mt-10 text-slate-900">
                 <h1 className="text-2xl font-semibold mb-4">Create Your Profile</h1>
                 <form onSubmit={handleProfileSubmit} className="bg-white p-6 rounded-lg shadow-md">

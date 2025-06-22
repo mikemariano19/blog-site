@@ -4,6 +4,9 @@ const commentSchema = require('./commentModel').schema;
 const Schema = mongoose.Schema
 
 const postSchema = new Schema({
+    userId: { 
+        type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true 
+    }, // Reference to the user who created the post
     caption: {
         type: String,
         required: true
