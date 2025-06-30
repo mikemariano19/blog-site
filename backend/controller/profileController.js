@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Profile = require('../model/profileModel');
+const Register = require('../model/registerModel');
 
 // Create profile
 exports.createProfile = async (req, res) => {
@@ -25,6 +26,8 @@ exports.createProfile = async (req, res) => {
             avatar,
         });
 
+        await Register.findByIdAndUpdate(req.user.id, { hasProfile: true });
+        
         res.status(200).json({
             message: 'Profile created successfully!',
             user: {
@@ -33,6 +36,8 @@ exports.createProfile = async (req, res) => {
                 avatar: newProfile.avatar,
             },
         });
+        
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error.' });

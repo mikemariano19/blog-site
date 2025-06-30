@@ -62,7 +62,7 @@ const Navbar = () => {
                 </div>
                 {isLoggedIn ?
                     <div className="h-12 flex content-center">
-                    <Link href="/" className="p-3 flex">
+                    <Link href="/newsfeed" className="p-3 flex">
                         <HomeIcon className="size-6" />
                         <span className="px-1 hidden lg:block">Home</span>
                     </Link>

@@ -1,10 +1,10 @@
 'use client';
 
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const Login: React.FC = () => {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -24,7 +24,6 @@ const Login: React.FC = () => {
                 localStorage.setItem('isLoggedIn', 'true'); // Optional: Track login status
                 const token = localStorage.getItem('authToken');
 
-                
                 // Login successful
                 alert(`Welcome back, ${username}`);
 
@@ -63,6 +62,15 @@ const Login: React.FC = () => {
             }, 5000);
         }
     };
+
+    useEffect(() => {
+        // Check if the user is already logged in
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            // If logged in, redirect to newsfeed or profile creation page
+            router.push('/newsfeed');
+        }
+    }, [router]);
 
     
 

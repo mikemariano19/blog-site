@@ -2,14 +2,15 @@
 
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import ProfileCreation from '../profile/create/page';
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-    const router = useRouter();
+    const [isRegistered, setIsRegistered] = useState(false);
+
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,11 +27,12 @@ const Register: React.FC = () => {
                 password: password,
             });
 
+            localStorage.setItem('authToken', response.data.token); // Save token
+            setIsRegistered(true); // Switch to profile creation view
+
             if (response.data.token) {
                 // Registration successful
                 alert(`Account created successfully for ${username}`);
-                localStorage.setItem('authToken', response.data.token); // Save the token
-                router.push('/login'); // Redirect to the login page
             } else {
                 console.error('No token received from the server');
             }
@@ -44,6 +46,8 @@ const Register: React.FC = () => {
             }
         }
     };
+
+      if (isRegistered) return <ProfileCreation />;
 
     return (
         <div className="register-container text-slate-900 text-lg flex justify-center items-center h-screen">

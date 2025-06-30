@@ -72,7 +72,7 @@ const ProfileCreation: React.FC = () => {
 
             if (response.status === 200) {
                 alert('Profile created successfully!');
-                router.push('/profile');
+                router.push('/newsfeed'); // Redirect to newsfeed after successful profile creation
             }
             
         } catch (err: unknown) {
@@ -93,10 +93,6 @@ const ProfileCreation: React.FC = () => {
     useEffect(() => {
     const checkIfProfileExists = async () => {
       const token = localStorage.getItem('authToken');
-      if (!token) {
-        router.push('/login');
-        return;
-      }
 
       try {
         const res = await axios.get('http://localhost:4001/api/profile/check', {
@@ -104,7 +100,7 @@ const ProfileCreation: React.FC = () => {
         });
 
         if (res.data.hasProfile) {
-          router.push('/newsfeed'); // redirect if already has profile
+          router.replace('/newsfeed'); // If profile exists, redirect to newsfeed
         }
       } catch (err) {
         console.error('Failed to verify profile status:', err);
@@ -113,7 +109,7 @@ const ProfileCreation: React.FC = () => {
     };
 
     checkIfProfileExists();
-  });
+  }, [router]);
 
     return (
         <>

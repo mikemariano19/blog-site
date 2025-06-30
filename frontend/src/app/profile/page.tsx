@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import axios from 'axios'
 import dynamic from 'next/dynamic'
 import Navbar from '../components/navbar/page'
+import { useRouter } from 'next/navigation'
 
 // Dynamically import UserPosts
 const UserPosts = dynamic(() => import('../components/user-post/page'), {
@@ -19,6 +20,7 @@ type Profile = {
 const ProfilePage = () => {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [error, setError] = useState('')
+  const router = useRouter()
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -33,11 +35,12 @@ const ProfilePage = () => {
       } catch (err) {
         console.error('Error fetching profile:', err)
         setError('Failed to load profile.')
+        router.push('/login') // Redirect to login if there's an error
       }
     }
 
     fetchProfile()
-  }, [])
+  }, [router])
 
   if (error) return <p className="text-red-500">{error}</p>
   if (!profile) return <p>Loading profile...</p>
