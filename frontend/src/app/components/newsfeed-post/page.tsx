@@ -9,13 +9,17 @@ import { useRouter } from 'next/navigation';
 
 interface CommentData {
     _id: string;
+    userId: string;
     userName: string;
     text: string;
     createdAt: string;
 }
-
 interface PostData {
     _id: number;
+    userId: {
+    firstName?: string;
+    lastName?: string;
+    };
     caption: string;
     image: string;
     createdAt: string;
@@ -31,13 +35,13 @@ export default function NewsFeed() {
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
 
-    useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            // If no token, redirect to login
-            router.push('/login');
-        }
-    });
+    // useEffect(() => {
+    //     const token = localStorage.getItem('authToken');
+    //     if (!token) {
+    //         // If no token, redirect to login
+    //         router.push('/login');
+    //     }
+    // });
 
     useEffect(() => {
         if (isModalOpen) {

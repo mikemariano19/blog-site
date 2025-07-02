@@ -79,7 +79,7 @@ const Login = () => {
             <div className="border bg-white rounded-lg shadow-lg">
                 <div className="w-96">
                     <h1 className="text-center py-4 font-semibold text-xl text-slate-800">
-                        Login into Pethub
+                        Login into DEV.connect
                     </h1>
                     <div className="border-t"></div> {/* border */}
                     <div className="relative py-2 pl-4">

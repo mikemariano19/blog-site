@@ -13,7 +13,10 @@ const getUserPosts = async (req, res) => {
     const userId = req.user.id; // Assuming user ID is extracted from the token
 
     try {
-        const posts = await Post.find({ userId }).sort({ createdAt: -1 }); // Sort by newest first
+        const posts = await Post.find()
+        .sort({ createdAt: -1 })
+        .populate('userId', 'firstName lastName') // Populate userId with firstName and lastName
+
         res.status(200).json(posts);
     } catch (error) {
         console.error('Error fetching user posts:', error);

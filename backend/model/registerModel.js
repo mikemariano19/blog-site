@@ -17,6 +17,15 @@ const registerSchema = new Schema(
             required: [true, 'Password is required'],
             minlength: [6, 'Password must be at least 6 characters long'],
         },
+        firstName: {
+            type: String,
+            required: [true, 'First name is required'],
+        default: '',},
+        lastName: {
+            type: String,
+            required: [true, 'Last name is required'],
+            default: '',
+        },
         hasProfile: {
             type: Boolean,
             default: false, // Indicates if the user has a profile

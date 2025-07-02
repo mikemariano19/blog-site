@@ -26,7 +26,11 @@ exports.createProfile = async (req, res) => {
             avatar,
         });
 
-        await Register.findByIdAndUpdate(req.user.id, { hasProfile: true });
+       await Register.findByIdAndUpdate(req.user.id, {
+            hasProfile: true,
+            firstName: newProfile.firstName,
+            lastName: newProfile.lastName,
+        });
         
         res.status(200).json({
             message: 'Profile created successfully!',
