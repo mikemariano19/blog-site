@@ -19,11 +19,10 @@ const registerSchema = new Schema(
         },
         firstName: {
             type: String,
-            required: [true, 'First name is required'],
-        default: '',},
+            default: '',
+        },
         lastName: {
             type: String,
-            required: [true, 'Last name is required'],
             default: '',
         },
         hasProfile: {

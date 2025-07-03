@@ -5,7 +5,9 @@ const Schema = mongoose.Schema
 
 const postSchema = new Schema({
     userId: { 
-        type: mongoose.Schema.Types.ObjectId, ref: 'Profile', required: true 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Profile', 
+        required: true 
     }, // Reference to the user who created the post
     caption: {
         type: String,

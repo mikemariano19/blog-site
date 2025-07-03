@@ -5,9 +5,16 @@ import axios from 'axios';
 import NewsFeed from '../components/newsfeed-post/page'
 import InputPostPage from '../components/input-post/page'
 import Navbar from '../components/navbar/page';
+import { useRouter } from 'next/navigation';
 
 const NewsfeedPage = () => {
   const [firstName, setFirstName] = useState('');
+
+  const router = useRouter();
+
+  if(!localStorage.getItem('authToken')) {
+    router.push('/login'); // Redirect to login if no token
+  }
 
  
 
