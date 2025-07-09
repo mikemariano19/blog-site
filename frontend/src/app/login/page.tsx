@@ -68,7 +68,7 @@ const Login = () => {
         const token = localStorage.getItem('authToken');
         if (token) {
             // If logged in, redirect to newsfeed or profile creation page
-            router.push('/newsfeed');
+            router.replace('/newsfeed');
         }
     }, [router]);
 

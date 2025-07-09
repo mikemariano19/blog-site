@@ -1,11 +1,12 @@
 'use client'
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
+
 
 import NewsFeed from '../components/newsfeed-post/page'
 import InputPostPage from '../components/input-post/page'
 import Navbar from '../components/navbar/page';
-import { useRouter } from 'next/navigation';
 
 const NewsfeedPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -21,7 +22,8 @@ const NewsfeedPage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('authToken');
-      if (!token) return; // If no token, do not proceed
+
+      // if (!token) return; // If no token, do not proceed
 
       try {
         const userRes = await axios.get('http://localhost:4001/api/profile', {

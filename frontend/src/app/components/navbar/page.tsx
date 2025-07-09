@@ -34,20 +34,24 @@ const Navbar = () => {
 
     const handleProfile = async () => {
         const token = localStorage.getItem('authToken');
-        try {
-            const response = await axios.get('http://localhost:4001/api/profile/check', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-    
-            if (response.data.hasProfile) {
-                router.push('/profile'); // Redirect to profile page
-            } else {
-                router.push('/profile/create'); // Redirect to profile creation page
+        if(token) {
+            router.push('/profile'); // Redirect to profile page
+        } else {
+            try {
+                const response = await axios.get('http://localhost:4001/api/profile/check', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const hasProfile = response.data.hasProfile;
+                if (hasProfile) {
+                    router.push('/profile'); // Redirect to profile page
+                } else {
+                    router.push('/profile/create'); // Redirect to profile creation page
+                }
+            } catch (error) {
+                console.error('Error checking profile:', error);
             }
-        } catch (error) {
-            console.error('Error checking profile:', error);
         }
     };
 

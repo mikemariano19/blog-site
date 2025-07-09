@@ -17,6 +17,31 @@ type Profile = {
   about: string
 }
 
+  // Function to fetch data with retry logic for token refresh
+  const fetchWithRetry = async (url: string, token: string) => {
+    try {
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res;
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err) && err.response?.status === 401) {
+        // Token expired, try refresh
+        const refreshRes = await axios.post('http://localhost:4001/api/refresh', {}, { withCredentials: true });
+        const newToken = refreshRes.data.accessToken;
+        localStorage.setItem('authToken', newToken);
+
+        // Retry original request
+        return await axios.get(url, {
+          headers: { Authorization: `Bearer ${newToken}` },
+        });
+      } else {
+        throw err;
+      }
+    }
+  };
+
+
 const ProfilePage = () => {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [error, setError] = useState('')
@@ -26,11 +51,7 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('authToken')
-        const res = await axios.get('http://localhost:4001/api/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        const res = await fetchWithRetry('http://localhost:4001/api/profile', token || '')
         setProfile(res.data)
       } catch (err) {
         console.error('Error fetching profile:', err)
