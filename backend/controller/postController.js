@@ -44,9 +44,22 @@ const getPostById = async (req, res) => {
 // create a new post
 const createPost = async (req, res) => {
     const { caption } = req.body
+    
+    if (!caption) {
+        return res.status(400).json({ error: 'Caption is required' })
+    }
 
     try {
-        const post = await Post.create({ caption })
+        const profile = await Profile.findOne({ userId: req.user.id });
+        if (!profile) {
+            return res.status(404).json({ error: 'User profile not found' });
+        }
+        // Create a new post with the user's first and last name
+        const post = await Post.create({ 
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            caption
+         })
         res.status(201).json(post)
     } catch (error) {
         res.status(400).json({ error: error.message })

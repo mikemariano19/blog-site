@@ -10,6 +10,7 @@ import Navbar from '../components/navbar/page';
 
 const NewsfeedPage = () => {
   const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   const router = useRouter();
 
@@ -23,13 +24,14 @@ const NewsfeedPage = () => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('authToken');
 
-      // if (!token) return; // If no token, do not proceed
+      if (!token) return; // If no token, do not proceed
 
       try {
         const userRes = await axios.get('http://localhost:4001/api/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFirstName(userRes.data.firstName);
+        setLastName(userRes.data.lastName);
 
         console.log('Token:', token); // See if it's null or correct
 
@@ -46,7 +48,10 @@ const NewsfeedPage = () => {
   return (
     <>
         <Navbar />
-        <InputPostPage firstName={firstName || 'User'} />
+        <InputPostPage 
+          firstName={firstName || 'User'} 
+          lastName={lastName || 'User'} 
+        />
         <NewsFeed />
     </>
   )

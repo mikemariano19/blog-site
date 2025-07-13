@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const InputPostPage = ({ firstName }: { firstName: string }) => {
-    const [postContent, setPostContent] = useState('');
+const InputPostPage = ({ firstName, lastName }: { firstName: string, lastName: string }) => {
+    const [postCaption, setPostCaption] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,19 +14,21 @@ const InputPostPage = ({ firstName }: { firstName: string }) => {
     const handlePostSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!postContent.trim()) {
+        if (!postCaption.trim()) {
             setError('Post content cannot be empty.');
             return;
         }
 
         try {
             const response = await axios.post('http://localhost:4001/api/posts', {
-                content: postContent,
+                caption: postCaption,
+                firstName,
+                lastName,
             });
 
             if (response.status === 201) {
                 setSuccess('Post created successfully!');
-                setPostContent(''); // Clear the input field
+                setPostCaption(''); // Clear the input field
                 setError(''); // Clear any previous errors
                 setIsModalOpen(false); // Close the modal
             }
@@ -40,13 +42,13 @@ const InputPostPage = ({ firstName }: { firstName: string }) => {
     };
 
     const handleCloseModal = () => {
-        setPostContent(''); // Clear the input field
+        setPostCaption(''); // Clear the input field
         setError(''); // Clear any previous errors
         setIsModalOpen(false); // Close the modal
     };
 
     const getFontSize = () => {
-        const lineCount = postContent.split('\n').length;
+        const lineCount = postCaption.split('\n').length;
         return lineCount > 2 ? 'text-sm' : 'text-xl';
     };
 
@@ -80,8 +82,8 @@ const InputPostPage = ({ firstName }: { firstName: string }) => {
                                     id="post"
                                     className={`border p-2 rounded-lg w-full resize-none ${getFontSize()}`}
                                     placeholder={`What's on your mind?`}
-                                    value={postContent}
-                                    onChange={(e) => setPostContent(e.target.value)}
+                                    value={postCaption}
+                                    onChange={(e) => setPostCaption(e.target.value)}
                                     rows={3} // Default height for 3 lines
                                     style={{ overflowY: 'auto' }}
                                     required

@@ -9,6 +9,14 @@ const postSchema = new Schema({
         ref: 'Profile', 
         required: true 
     }, // Reference to the user who created the post
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
     caption: {
         type: String,
         required: true
