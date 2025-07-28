@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const Register = require('../model/registerModel');
 const { generateAccessToken, generateRefreshToken } = require('../middleware/tokenUtils');
 
@@ -28,6 +27,7 @@ const loginUser = async (req, res) => {
             httpOnly: true,
             secure: true,
             sameSite: 'strict',
+            path: '/api/auth/refresh', // Only send on this path
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         // Send access token only

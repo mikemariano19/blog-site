@@ -7,6 +7,7 @@ const postRoute = require('./routes/postRoute')
 const registerRoute = require('./routes/registerRoute')
 const loginRoute = require('./routes/loginRoute');
 const profileRoute = require('./routes/profileRoute');
+const verifyToken = require('./middleware/verifyToken');
 
 const app = express()
 
@@ -23,9 +24,10 @@ app.use('/api/posts', postRoute)
 app.use('/api/register', registerRoute)
 app.use('/api/login', loginRoute)
 app.use('/api/profile', profileRoute)
-app.use('/api/profile', require('./routes/profileRoute'));
 app.use('/uploads', express.static('uploads'));
-app.use('/api/newsfeed', require('./routes/loginRoute')) // Newsfeed route for protected content
+app.get('/api/newsfeed', verifyToken, (req, res) => {
+    res.json({ message: 'Protected newsfeed content', user: req.user });
+});
 
 // Connect to MongoDB and start the server
 mongoose.connect(process.env.MONGO_URI)

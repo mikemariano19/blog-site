@@ -1,5 +1,6 @@
 const Post = require('../model/postModel')
 const Comment = require('../model/commentModel');
+const Profile = require('../model/profileModel')
 const mongoose = require('mongoose')
 
 // get all posts
@@ -55,7 +56,8 @@ const createPost = async (req, res) => {
             return res.status(404).json({ error: 'User profile not found' });
         }
         // Create a new post with the user's first and last name
-        const post = await Post.create({ 
+        const post = await Post.create({
+            userId: req.user._id,
             firstName: profile.firstName,
             lastName: profile.lastName,
             caption

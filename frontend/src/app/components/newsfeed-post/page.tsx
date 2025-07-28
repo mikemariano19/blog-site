@@ -35,14 +35,6 @@ export default function NewsFeed() {
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('authToken');
-    //     if (!token) {
-    //         // If no token, redirect to login
-    //         router.push('/login');
-    //     }
-    // });
-
     useEffect(() => {
         if (isModalOpen) {
             document.body.classList.add("overflow-hidden");

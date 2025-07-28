@@ -1,15 +1,18 @@
-router.post('/refresh', (req, res) => {
+router.post('/refresh', async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
+
   if (!refreshToken) return res.sendStatus(401);
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-    if (err) return res.sendStatus(403);
+  try {
+    const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
-    const accessToken = jwt.sign(
-      { id: decoded.id },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
-    );
-    res.json({ accessToken });
-  });
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(401).json({ message: 'User not found' });
+
+    const newAccessToken = generateAccessToken(user);
+
+    res.json({ token: newAccessToken });
+  } catch (error) {
+    return res.status(401).json({ message: 'Invalid refresh token' });
+  }
 });

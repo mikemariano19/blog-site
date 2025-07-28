@@ -8,7 +8,6 @@ const Profile = require('../model/profileModel');
 router.get('/check', verifyToken, async (req, res) => {
     try {
         const profile = await Profile.findOne({ userId: req.user.id });
-        console.log('Checking profile for user ID:', req.user.id);
         const hasProfile = !!profile;
         res.status(200).json({ hasProfile: !!hasProfile });
     } catch (err) {

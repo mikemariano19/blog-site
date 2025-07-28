@@ -1,4 +1,7 @@
 const express = require('express')
+const router = express.Router()
+const verifyToken = require('../middleware/verifyToken') // Middleware to verify the token
+
 const { 
     getPosts, 
     getPostById, 
@@ -10,18 +13,20 @@ const {
     getUserPosts 
     } = require('../controller/postController')
 
-const verifyToken = require('../middleware/verifyToken') // Middleware to verify the token
 
-const router = express.Router()
 
 // GET all posts
-router.route('/').get(getPosts)
+router.get('/', getPosts)
 
 // POST a new post
-router.route('/').post(createPost)
+router.post('/', verifyToken, createPost)
 
 // GET, PUT, DELETE a single post by ID
-router.route('/:id').get(getPostById).put(updatePost).patch(patchPost).delete(deletePost)
+router.route('/:id')
+    .get(getPostById)
+    .put(updatePost)
+    .patch(patchPost)
+    .delete(deletePost)
 
 // Route to fetch user posts
 router.get('/user', verifyToken, getUserPosts);

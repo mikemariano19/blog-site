@@ -22,28 +22,10 @@ const Login = () => {
                 // Save the token in localStorage
                 localStorage.setItem('authToken', response.data.token);
                 localStorage.setItem('isLoggedIn', 'true'); // Optional: Track login status
-                const token = localStorage.getItem('authToken');
 
                 // Login successful
                 alert(`Welcome back, ${username}`);
-
-                  // Fetch hasProfile from server
-                const profileCheck = await axios.get('http://localhost:4001/api/profile/check', {
-                    headers: {
-                    Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                const hasProfile = profileCheck.data.hasProfile;
-                localStorage.setItem('hasProfile', hasProfile);
-
-                // Check if the user has a profile
-                if(hasProfile) {
-                    router.push('/newsfeed'); // Redirect to the newsfeed page
-                } else {
-                    router.push('/profile/create'); // Redirect to the profile creation page
-                }
-                console.log('Login successful:', response.data);
+                router.push('/newsfeed'); // Redirect to newsfeed
             } else {
                 console.error('No token received from the server');
             }

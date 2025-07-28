@@ -19,11 +19,6 @@ const Navbar = () => {
         }
     }, []);
 
-    
-
-    
-
-
     const handleLogout = () => {
         localStorage.removeItem('authToken'); // Remove the token
         localStorage.removeItem('isLoggedIn'); // Remove login status
@@ -54,6 +49,8 @@ const Navbar = () => {
             }
         }
     };
+
+   
 
 
 

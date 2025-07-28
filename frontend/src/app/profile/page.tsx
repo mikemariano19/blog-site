@@ -51,12 +51,12 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('authToken')
-        const res = await fetchWithRetry('http://localhost:4001/api/profile', token || '')
+        const res = await fetchWithRetry('http://localhost:4001/api/profile', token || '');
         setProfile(res.data)
-      } catch (err) {
+        setProfile(res.data)
+      } catch (err: unknown) {
         console.error('Error fetching profile:', err)
         setError('Failed to load profile.')
-        router.push('/login') // Redirect to login if there's an error
       }
     }
 
@@ -71,7 +71,7 @@ const ProfilePage = () => {
   return (
         <>
         <Navbar />
-          <div className="max-w-screen-md mx-auto mt-10">
+          <div className="max-w-screen-md mx-auto mt-10 text-gray-800">
             <h1 className="text-2xl font-semibold mb-4">
               {profile.firstName} {profile.lastName}
             </h1>

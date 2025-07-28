@@ -60,7 +60,7 @@ const InputPostPage = ({ firstName, lastName }: { firstName: string, lastName: s
                 onClick={() => setIsModalOpen(true)}
             >
                 <span className="bg-slate-900 w-16 h-16 rounded-full mr-6 shrink-0"></span>
-                <p className="text-gray-500 content-center bg-slate-200 w-full rounded-3xl pl-4">What&apos;s on your mind, {firstName}?</p>
+                <p className="text-gray-500 content-center bg-slate-200 w-full rounded-3xl pl-4">What&apos;s on your mind, {firstName} ?</p>
             </div>
 
             {/* Modal */}

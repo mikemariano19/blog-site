@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
@@ -90,26 +90,26 @@ const ProfileCreation: React.FC = () => {
         router.push('/');
     };
 
-    useEffect(() => {
-    const checkIfProfileExists = async () => {
-      const token = localStorage.getItem('authToken');
+//     useEffect(() => {
+//     const checkIfProfileExists = async () => {
+//       const token = localStorage.getItem('authToken');
 
-      try {
-        const res = await axios.get('http://localhost:4001/api/profile/check', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+//       try {
+//         const res = await axios.get('http://localhost:4001/api/profile/check', {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
 
-        if (res.data.hasProfile) {
-          router.replace('/newsfeed'); // If profile exists, redirect to newsfeed
-        }
-      } catch (err) {
-        console.error('Failed to verify profile status:', err);
-        router.push('/login');
-      }
-    };
+//         if (res.data.hasProfile) {
+//           router.replace('/newsfeed'); // If profile exists, redirect to newsfeed
+//         }
+//       } catch (err) {
+//         console.error('Failed to verify profile status:', err);
+//         router.push('/login');
+//       }
+//     };
 
-    checkIfProfileExists();
-  }, [router]);
+//     checkIfProfileExists();
+//   }, [router]);
 
     return (
         <>

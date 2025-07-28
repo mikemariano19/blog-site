@@ -14,17 +14,17 @@ const NewsfeedPage = () => {
 
   const router = useRouter();
 
-  if(!localStorage.getItem('authToken')) {
-    router.push('/login'); // Redirect to login if no token
-  }
-
- 
-
+  
+  
+  
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('authToken');
-
-      if (!token) return; // If no token, do not proceed
+      
+      if(!localStorage.getItem('authToken')) {
+        router.push('/login'); // Redirect to login if no token
+      }
+      
 
       try {
         const userRes = await axios.get('http://localhost:4001/api/profile', {
@@ -42,7 +42,7 @@ const NewsfeedPage = () => {
     };
 
     fetchUserData();
-  }, []);
+  });
 
 
   return (
@@ -50,7 +50,7 @@ const NewsfeedPage = () => {
         <Navbar />
         <InputPostPage 
           firstName={firstName || 'User'} 
-          lastName={lastName || 'User'} 
+          lastName={lastName} 
         />
         <NewsFeed />
     </>
