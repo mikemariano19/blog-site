@@ -3,8 +3,8 @@ import "./globals.css";
 
 
 export const metadata: Metadata = {
-  title: "Cat Blog",
-  description: "Purrfect blog for cat and dog lovers",
+  title: "Ask Dev",
+  description: "Connect with fellow programmers, share knowledge, and grow together.",
 };
 
 export default function RootLayout({

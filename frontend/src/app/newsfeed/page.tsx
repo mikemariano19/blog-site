@@ -25,7 +25,6 @@ const NewsfeedPage = () => {
         router.push('/login'); // Redirect to login if no token
       }
       
-
       try {
         const userRes = await axios.get('http://localhost:4001/api/profile', {
           headers: { Authorization: `Bearer ${token}` },
@@ -34,7 +33,6 @@ const NewsfeedPage = () => {
         setLastName(userRes.data.lastName);
 
         console.log('Token:', token); // See if it's null or correct
-
         
       } catch (err) {
         console.error('Error fetching user/profile data:', err);

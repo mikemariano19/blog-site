@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
 
+const token = jwt.sign({ id: '6866922addda3e9256bef0ff' }, 'mernappsecret', { expiresIn: '1h' });
+console.log(token);
+
 const generateAccessToken = (user) => {
   return jwt.sign(
     { id: user._id, userName: user.userName },
