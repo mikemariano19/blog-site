@@ -1,5 +1,6 @@
 'use client';
 
+import api from '../utils/axios';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -13,7 +14,7 @@ const Login = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:4001/api/login', {
+            const response = await api.post('login', {
                 userName: username,
                 password: password,
             });
@@ -29,14 +30,13 @@ const Login = () => {
             } else {
                 console.error('No token received from the server');
             }
-        } catch (err: unknown) {
-            // Narrow the type of `err` to handle it properly
-            if (axios.isAxiosError(err)) {
-                // console.error('Login error:', err.response?.data || err.message);
-                setError(err.response?.data?.message || 'Invalid username or password.');
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                // Handle Axios error
+                setError(error.response?.data?.message || 'Login failed. Please try again.');
             } else {
-                console.error('Unexpected error:', err);
-                setError('An unexpected error occurred. Please try again.');
+                // Handle other types of errors
+                setError('An unexpected error occurred. Please try again later.');
             }
             // Automatically clear the error message after 5 seconds
             setTimeout(() => {
@@ -49,7 +49,7 @@ const Login = () => {
         // Check if the user is already logged in
         const token = localStorage.getItem('authToken');
         if (token) {
-            // If logged in, redirect to newsfeed or profile creation page
+            // If logged in, redirect to newsfeed
             router.replace('/newsfeed');
         }
     }, [router]);

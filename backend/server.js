@@ -26,7 +26,7 @@ app.use(cors({
 app.use('/api/posts', postRoute)
 app.use('/api/register', registerRoute)
 app.use('/api/login', loginRoute)
-app.use('/api/profile', profileRoute)
+app.use('/api/profile', profileRoute);
 app.use('/api/auth', authRoute);
 app.use('/uploads', express.static('uploads'));
 app.get('/api/newsfeed', verifyToken, (req, res) => {

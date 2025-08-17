@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState, Suspense } from 'react'
-import axios from 'axios'
 import dynamic from 'next/dynamic'
 import Navbar from '../components/navbar/page'
 import { useRouter } from 'next/navigation'
+import api from '../utils/axios'
 
 // Dynamically import UserPosts
 const UserPosts = dynamic(() => import('../components/user-post/page'), {
@@ -23,43 +23,20 @@ const ProfilePage = () => {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [error, setError] = useState('')
   const router = useRouter()
-  
-  // Function to fetch data with retry logic for token refresh
-  const fetchWithRetry = async (url: string, token: string) => {
-    try {
-      const res = await axios.get(url, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return res;
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err) && err.response?.status === 401) {
-        // Token expired, try refresh
-        const refreshRes = await axios.post(
-          'http://localhost:4001/api/auth/refresh',
-           {}, 
-           { withCredentials: true }
-        );
-        const newToken = refreshRes.data.accessToken;
-        localStorage.setItem('authToken', newToken);
-  
-        // Retry original request
-        return await axios.get(url, {
-          headers: { Authorization: `Bearer ${newToken}` },
-        });
-      } else {
-        throw err;
-      }
-    }
-  };
 
   // Fetch profile data
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('authToken')
-        const res = await fetchWithRetry('http://localhost:4001/api/profile', token || '');
-        setProfile(res.data.profile);
-        setProfile(res.data.profile);
+        if (!token) {
+          router.push('/login');
+          return;
+        }
+
+        const res = await api.get('/profile');
+        setProfile(res.data); 
+
       } catch (err: unknown) {
         console.error('Error fetching profile:', err)
         setError('Failed to load profile.')

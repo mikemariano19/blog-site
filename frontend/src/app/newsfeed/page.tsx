@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import api from '../utils/axios';
 
 
 import NewsFeed from '../components/newsfeed-post/page'
@@ -26,7 +26,7 @@ const NewsfeedPage = () => {
       }
       
       try {
-        const userRes = await axios.get('http://localhost:4001/api/profile', {
+        const userRes = await api.get('/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFirstName(userRes.data.firstName);
