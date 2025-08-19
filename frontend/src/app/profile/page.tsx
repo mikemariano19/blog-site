@@ -34,8 +34,8 @@ const ProfilePage = () => {
           return;
         }
 
-        const res = await api.get('/profile');
-        setProfile(res.data); 
+        const { data } = await api.get('/profile');
+        setProfile(data.data); 
 
       } catch (err: unknown) {
         console.error('Error fetching profile:', err)

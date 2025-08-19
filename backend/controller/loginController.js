@@ -6,7 +6,6 @@ const { generateAccessToken, generateRefreshToken } = require('../middleware/tok
 const loginUser = async (req, res) => {
     const { userName, password } = req.body;
     
-    
     try {
         // Check if the user exists
         const user = await Register.findOne({ userName });
@@ -20,21 +19,20 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid password' });
         }
         
-        const accessToken = generateAccessToken(user._id);
-        const refreshToken = generateRefreshToken(user._id);
+        const accessToken = generateAccessToken({id: user._id, userName: user.userName} );
+        const refreshToken = generateRefreshToken({id: user._id});
 
+
+        // DEV: secure:false (http); PROD: true (https)
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
+            secure: process.env.NODE_ENV === 'production' ? true : false, // Set secure flag in production
+            sameSite: 'lax', // Prevent CSRF attacks
             path: '/', // allow refresh token to be sent anywhere
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
-        // Send access token only
-        return res.status(200).json({
-            message: 'Login successful',
-            token: accessToken,
-        });
+        
+        return res.json({ accessToken });
 
     } catch (error) {
         console.error('Error during login:', error);
