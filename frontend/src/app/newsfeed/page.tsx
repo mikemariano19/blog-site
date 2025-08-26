@@ -29,6 +29,7 @@ const NewsfeedPage = () => {
         const userRes = await api.get('/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
+        
         setFirstName(userRes.data.firstName);
         setLastName(userRes.data.lastName);
 

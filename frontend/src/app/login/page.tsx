@@ -19,9 +19,9 @@ const Login = () => {
                 password: password,
             });
             
-            if (response.data.token) {
+            if (response.data.accessToken) {
                 // Save the token in localStorage
-                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('authToken', response.data.accessToken);
                 localStorage.setItem('isLoggedIn', 'true'); // Optional: Track login status
 
                 // Login successful

@@ -15,6 +15,7 @@ const ProfileCreation: React.FC = () => {
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    
     const router = useRouter();
 
     const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
