@@ -14,7 +14,14 @@ const verifyToken = async (req, res, next) => {
     
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = { id: decoded.userId.id, userName: decoded.userId.userName };
+
+        // Handle both formats (userId object or flat id/username)
+        if (decoded.userId) {
+            req.user = { id: decoded.userId.id, userName: decoded.userId.userName };
+        } else {
+            req.user = { id: decoded.id, userName: decoded.userName };
+        }
+        
         return next();
     } catch (error) {
         console.error("JWT Verification Error:", error.message);

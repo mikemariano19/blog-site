@@ -34,8 +34,8 @@ const ProfilePage = () => {
           return;
         }
 
-        const { data } = await api.get('/profile');
-        setProfile(data.data); 
+        const profile  = await api.get('/profile');
+        setProfile(profile.data); 
 
       } catch (err: unknown) {
         console.error('Error fetching profile:', err)
@@ -55,7 +55,7 @@ const ProfilePage = () => {
         <>
         <Navbar />
           <div className="max-w-screen-md mx-auto mt-10 text-gray-800">
-            <h1 className="text-2xl font-semibold mb-4">
+            <h1 className="text-2xl font-semibold mb-4 flex justify-center">
               {profile.firstName} {profile.lastName}
             </h1>
             <p className="mb-4">{profile.about}</p>

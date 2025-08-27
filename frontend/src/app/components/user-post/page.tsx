@@ -12,7 +12,6 @@ type Post = {
 const UserPosts = () => {
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,7 +25,6 @@ const UserPosts = () => {
         setPosts(res.data)
       } catch (err) {
         console.error('Error loading posts', err)
-        setError('Failed to load posts.')
       } finally {
         setLoading(false)
       }
@@ -35,13 +33,12 @@ const UserPosts = () => {
     fetchPosts()
   }, [])
 
-  if (error) return <p className="text-red-500">{error}</p>
-  if (loading) return <p>Loading posts...</p>
+  if (loading) return <p className='h-screen flex justify-center items-center'>Loading posts...</p>
 
   return (
     <>
       {posts.length === 0 ? (
-        <p className="text-gray-500">No posts yet.</p>
+        <p className="text-gray-500 h-full flex justify-center">No posts yet.</p>
       ) : (
         posts.map((post) => (
           <div key={post._id} className="border p-4 rounded-lg mb-4">

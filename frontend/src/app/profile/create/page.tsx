@@ -3,7 +3,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
 const MAX_FILE_SIZE_MB = 2;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -60,7 +59,7 @@ const ProfileCreation: React.FC = () => {
             if (avatar) {
                 formData.append('avatar', avatar);
             }
-
+            
             const response = await axios.post(
                 'http://localhost:4001/api/profile',
                 formData,
@@ -92,26 +91,26 @@ const ProfileCreation: React.FC = () => {
         router.push('/');
     };
 
-    useEffect(() => {
-    const checkIfProfileExists = async () => {
-      const token = localStorage.getItem('authToken');
+//     useEffect(() => {
+//     const checkIfProfileExists = async () => {
+//       const token = localStorage.getItem('authToken');
 
-      try {
-        const res = await axios.get('http://localhost:4001/api/profile/check', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+//       try {
+//         const res = await axios.get('http://localhost:4001/api/profile/check', {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
 
-        if (res.data.hasProfile) {
-          router.replace('/newsfeed'); // If profile exists, redirect to newsfeed
-        }
-      } catch (err) {
-        console.error('Failed to verify profile status:', err);
-        router.push('/profile/create');
-      }
-    };
+//         if (res.data.hasProfile) {
+//           router.replace('/newsfeed'); // If profile exists, redirect to newsfeed
+//         }
+//       } catch (err) {
+//         console.error('Failed to verify profile status:', err);
+//         router.push('/profile/create');
+//       }
+//     };
 
-    checkIfProfileExists();
-  }, [router]);
+//     checkIfProfileExists();
+//   }, [router]);
 
     return (
         <>
