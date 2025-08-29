@@ -15,6 +15,9 @@ const {
 
 
 
+// Route to fetch user posts
+router.get('/user', verifyToken, getUserPosts);
+
 // GET all posts
 router.get('/', getPosts)
 
@@ -28,10 +31,8 @@ router.route('/:id')
     .patch(patchPost)
     .delete(deletePost)
 
-// Route to fetch user posts
-router.get('/user', verifyToken, getUserPosts);
-
 // POST a comment to a post
-router.route('/:id/comments').post(addComment);
+router.post('/:id/comments', addComment);
+
 
 module.exports = router

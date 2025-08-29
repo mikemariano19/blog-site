@@ -1,20 +1,20 @@
 const Post = require('../model/postModel')
-const Comment = require('../model/commentModel');
 const Profile = require('../model/profileModel')
 const mongoose = require('mongoose')
 
 // get all posts
 const getPosts = async (req, res) => {
-    const posts = await Post.find({}).sort({ createdAt: -1 })
+    const posts = await Post.find({userId: req.user.id})
+    .sort({ createdAt: -1 })
+    .populate('userId', 'firstName lastName') // Populate userId with firstName and lastName
     res.status(200).json(posts)
 }
 
 // Fetch all posts by a user
 const getUserPosts = async (req, res) => {
-    const userId = req.user.id; // Assuming user ID is extracted from the token
 
     try {
-        const posts = await Post.find()
+        const posts = await Post.find({userId: req.user.id})
         .sort({ createdAt: -1 })
         .populate('userId', 'firstName lastName') // Populate userId with firstName and lastName
 
@@ -127,10 +127,10 @@ const addComment = async (req, res) => {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        const comment = new Comment({
-            userName: req.body.userName,
-            text: req.body.text
-        });
+        const comment = {
+        userName: req.body.userName,
+        text: req.body.text,
+        };
 
         post.comments.push(comment);
         await post.save();

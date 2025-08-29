@@ -1,18 +1,16 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const profileSchema = new mongoose.Schema({
+const ProfileSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-    unique: true,
+     type: mongoose.Schema.Types.ObjectId, 
+     ref: 'User', 
+     required: true, 
+     unique: true 
   },
   firstName: String,
   lastName: String,
-  avatar: {
-    data: Buffer,
-    contentType: String,
-  },
-});
+  avatar: String, // store URL or Base64 string (easier than Buffer)
+  bio: String
+}, { timestamps: true })
 
-module.exports = mongoose.model('Profile', profileSchema);
+module.exports = mongoose.model('Profile', ProfileSchema)
